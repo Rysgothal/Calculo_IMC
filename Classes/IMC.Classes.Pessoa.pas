@@ -13,7 +13,7 @@ type
     FNascimento: string;
     FPeso: string;
     FAltura: string;
-    FPesoIMC: TStatusIMC;
+    FStatusIMC: TStatusIMC;
     FMediaIMC: Single;
     FIdade: string;
     procedure SetAltura(const pValor: string);
@@ -27,7 +27,7 @@ type
     property Idade: string read FIdade write FIdade;
     property Peso: string read FPeso write SetPeso;
     property Altura: string read FAltura write SetAltura;
-    property PesoIMC: TStatusIMC read FPesoIMC write FPesoIMC;
+    property StatusIMC: TStatusIMC read FStatusIMC write FStatusIMC;
     property MediaIMC: Single read FMediaIMC write FMediaIMC;
     procedure Limpar;
   end;
@@ -98,7 +98,7 @@ begin
   FNascimento := EmptyStr;
   FPeso := EmptyStr;
   FAltura := EmptyStr;
-  FPesoIMC := siAbaixo;
+  FStatusIMC := siAbaixo;
   FMediaIMC := 0;
   FIdade := 'anos; meses; semanas; dias;';
 end;

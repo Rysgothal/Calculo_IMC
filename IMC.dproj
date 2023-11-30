@@ -85,6 +85,8 @@
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -110,10 +112,13 @@
         <DCCReference Include="Classes\IMC.Classes.Pessoa.pas"/>
         <DCCReference Include="Classes\Strategy\IMC.Classes.IMCFemi.pas"/>
         <DCCReference Include="Classes\Strategy\IMC.Classes.IMCMasc.pas"/>
-        <DCCReference Include="Classes\Strategy\IMC.Classes.Paciente.pas"/>
-        <DCCReference Include="Interfaces\Strategy\IMC.Interfaces.StrategyIMC.pas">
-            <Form>/  IMC.Interfaces.FactoryMethodIMC in &apos;Interfaces\Factory_Method\IMC.Interfaces.FactoryMethodIMC.pas&apos;,</Form>
+        <DCCReference Include="Classes\Memento\IMC.Classes.Restaurar.pas"/>
+        <DCCReference Include="Classes\Memento\IMC.Classes.Historico.pas"/>
+        <DCCReference Include="Classes\IMC.Classes.Paciente.pas"/>
+        <DCCReference Include="Forms\IMC.Forms.Historico.pas">
+            <Form>frmHistorico</Form>
         </DCCReference>
+        <DCCReference Include="Interfaces\Strategy\IMC.Interfaces.StrategyIMC.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -134,6 +139,10 @@
                 <Source>
                     <Source Name="MainSource">IMC.dpr</Source>
                 </Source>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k280.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp280.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
                 <DeployFile LocalName="Win32\Debug\IMC.exe" Configuration="Debug" Class="ProjectOutput">
@@ -943,10 +952,10 @@
                 </DeployClass>
                 <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="OSX64" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Android64" Name="$(PROJECTNAME)"/>
-                <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="OSXARM64" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Linux64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>

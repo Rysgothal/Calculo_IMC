@@ -44,6 +44,7 @@ type
     lblSetaTop: TLabel;
     shpAcimaPeso: TShape;
     tmrHorario: TTimer;
+    btnHistorico: TSpeedButton;
     procedure edtNomeChange(Sender: TObject);
     procedure edtNascimentoChange(Sender: TObject);
     procedure edtNascimentoExit(Sender: TObject);
@@ -56,9 +57,11 @@ type
     procedure tmrHorarioTimer(Sender: TObject);
     procedure edtNomeExit(Sender: TObject);
     procedure sbtnCalcularClick(Sender: TObject);
+    procedure btnHistoricoClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
-    FPaciente: TPaciente;
+    FPacientes: TPacientes;
 
     procedure TratarExcessoes(pE: Exception);
     procedure CalcularIMC;
@@ -69,6 +72,7 @@ type
     procedure Limpar;
     procedure MoverSetas;
     procedure ConfigurarPainelResultado(pPosSetas: Integer; pCorSeta: TColor);
+    procedure SalvarHistorico;
   public
     { Public declarations }
   end;
@@ -79,13 +83,18 @@ var
 implementation
 
 uses
-  IMC.Helpers.Funcoes;
+  IMC.Helpers.Funcoes, IMC.Forms.Historico;
 
 {$R *.dfm}
 
+procedure TfrmPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FreeAndNil(FPacientes);
+end;
+
 procedure TfrmPrincipal.FormCreate(Sender: TObject);
 begin
-  FPaciente := TPaciente.Create;
+  FPacientes := TPacientes.Create;
 
   sttsbarInformacao.Panels[0].Text := DateToStr(Now);
   tmrHorario.Enabled := True;
@@ -125,7 +134,7 @@ end;
 
 procedure TfrmPrincipal.LimparDados;
 begin
-  FPaciente.Limpar;
+  FPacientes.Atual.Limpar;
   edtNome.Clear;
   edtNascimento.Clear;
   edtPeso.Clear;
@@ -137,7 +146,7 @@ end;
 
 procedure TfrmPrincipal.MoverSetas;
 begin
-  case FPaciente.PesoIMC of
+  case FPacientes.Atual.StatusIMC of
     siAbaixo: ConfigurarPainelResultado(80, $00D1B499);
     siIdeal: ConfigurarPainelResultado(229, $00C0DCC0);
     siPoucoAcima: ConfigurarPainelResultado(375, $00BBFFFF);
@@ -146,12 +155,56 @@ begin
   end;
 end;
 
+procedure TfrmPrincipal.SalvarHistorico;
+var
+  lDataHoraAtual: string;
+begin
+  lDataHoraAtual := FormatDateTime('dd/mm/yyyy hh:nn:ss:zzz', Now);
+  FPacientes.Historico.Adicionar(lDataHoraAtual, FPacientes.Salvar);
+end;
+
+procedure TfrmPrincipal.btnHistoricoClick(Sender: TObject);
+begin
+  if not Assigned(frmHistorico) then
+  begin
+    frmHistorico := TfrmHistorico.Create(FPacientes);
+
+    try
+      frmHistorico.ShowModal;
+    finally
+      FreeAndNil(frmHistorico);
+    end;
+  end;
+
+  edtNome.Text := FPacientes.Atual.Nome;
+  edtNascimento.Text := FPacientes.Atual.Nascimento;
+  edtPeso.Text := FPacientes.Atual.Peso;
+  edtAltura.Text := FPacientes.Atual.Altura;
+  edtIMC.Text := FPacientes.Atual.MediaIMC.ToString;
+  Calcular;
+end;
+
 procedure TfrmPrincipal.Calcular;
 begin
   try
+    if THelpers.VerificarCampoVazio(edtNome) then
+    begin
+      Application.MessageBox('O nome não foi preenchido, verifique', 'Atenção', MB_OK + MB_ICONINFORMATION);
+      THelpers.Focar(edtNome);
+      Exit;
+    end;
+
+    if THelpers.VerificarCampoVazio(edtNascimento) then
+    begin
+      Application.MessageBox('A data de nascimento não foi preenchida, verifique', 'Atenção', MB_OK + MB_ICONINFORMATION);
+      THelpers.Focar(edtNascimento);
+      Exit;
+    end;
+
     CalcularIMC;
     HabilitarComponentesResultado(True);
-    sbtnCalcular.Enabled := False;
+    sbtnLimpar.Enabled := True;
+    btnHistorico.Enabled := True;
     MoverSetas;
   except
     on E: Exception do
@@ -164,23 +217,26 @@ end;
 procedure TfrmPrincipal.Limpar;
 begin
   LimparDados;
-  sbtnCalcular.Enabled := True;
+  sbtnLimpar.Enabled := False;
   HabilitarComponentesResultado(False);
 end;
 
 procedure TfrmPrincipal.CalcularIMC;
 begin
-  FPaciente.VerificarIMC(TSexoPaciente(rgpSexo.ItemIndex));
-  edtIMC.Text := FormatFloat('#,##0.00', FPaciente.MediaIMC);
+  FPacientes.Atual.VerificarIMC(TSexoPaciente(rgpSexo.ItemIndex));
+  edtIMC.Text := FormatFloat('#,##0.00', FPacientes.Atual.MediaIMC);
 end;
 
 procedure TfrmPrincipal.sbtnCalcularClick(Sender: TObject);
 begin
+  ActiveControl := nil;
   Calcular;
+  SalvarHistorico;
 end;
 
 procedure TfrmPrincipal.sbtnLimparClick(Sender: TObject);
 begin
+  ActiveControl := nil;
   Limpar;
 end;
 
@@ -234,7 +290,7 @@ end;
 procedure TfrmPrincipal.edtAlturaExit(Sender: TObject);
 begin
   try
-    FPaciente.Altura := edtAltura.Text;
+    FPacientes.Atual.Altura := edtAltura.Text;
   except
     on E: Exception do
     begin
@@ -251,8 +307,8 @@ end;
 procedure TfrmPrincipal.edtNascimentoExit(Sender: TObject);
 begin
   try
-    FPaciente.Nascimento := THelpers.FormatarData(edtNascimento.Text);
-    lblAnoMesesSemanasDias.Caption := FPaciente.Idade;
+    FPacientes.Atual.Nascimento := THelpers.FormatarData(edtNascimento.Text);
+    lblAnoMesesSemanasDias.Caption := FPacientes.Atual.Idade;
   except
     on E: Exception do
     begin
@@ -268,7 +324,7 @@ end;
 
 procedure TfrmPrincipal.edtNomeExit(Sender: TObject);
 begin
-  FPaciente.Nome := THelpers.DigitarLetras(edtNome.Text);
+  FPacientes.Atual.Nome := THelpers.DigitarLetras(edtNome.Text);
 end;
 
 procedure TfrmPrincipal.edtPesoChange(Sender: TObject);
@@ -285,7 +341,7 @@ end;
 procedure TfrmPrincipal.edtPesoExit(Sender: TObject);
 begin
   try
-    FPaciente.Peso := edtPeso.Text;
+    FPacientes.Atual.Peso := edtPeso.Text;
   except
     on E: Exception do
     begin

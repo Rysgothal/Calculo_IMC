@@ -9,16 +9,16 @@ uses
   IMC.Classes.Pessoa in 'Classes\IMC.Classes.Pessoa.pas',
   IMC.Classes.IMCFemi in 'Classes\Strategy\IMC.Classes.IMCFemi.pas',
   IMC.Classes.IMCMasc in 'Classes\Strategy\IMC.Classes.IMCMasc.pas',
-  IMC.Classes.Paciente in 'Classes\Strategy\IMC.Classes.Paciente.pas',
-//  IMC.Classes.PesoIMC in 'Classes\Factory_Method\IMC.Classes.PesoIMC.pas',
+  IMC.Classes.Restaurar in 'Classes\Memento\IMC.Classes.Restaurar.pas',
+  IMC.Classes.Historico in 'Classes\Memento\IMC.Classes.Historico.pas',
+  IMC.Classes.Paciente in 'Classes\IMC.Classes.Paciente.pas',
+  IMC.Forms.Historico in 'Forms\IMC.Forms.Historico.pas' {frmHistorico},
   IMC.Interfaces.StrategyIMC in 'Interfaces\Strategy\IMC.Interfaces.StrategyIMC.pas';
-//  IMC.Interfaces.FactoryMethodIMC in 'Interfaces\Factory_Method\IMC.Interfaces.FactoryMethodIMC.pas',
-//  IMC.Classes.FabricaStatusIMC in 'Classes\Factory_Method\IMC.Classes.FabricaStatusIMC.pas',
-//  IMC.Interfaces.FabricaStatusIMC in 'Interfaces\Factory_Method\IMC.Interfaces.FabricaStatusIMC.pas';
 
 {$R *.res}
 
 begin
+  ReportMemoryLeaksOnShutdown := True;
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmPrincipal, frmPrincipal);

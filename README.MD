@@ -14,10 +14,9 @@ Com isso poderá acionar o botão Calcular, que irá aparecer seu resultado.
 - Conceito S.O.L.I.D.
 
 - Conceito de Design Pattern
-    > - Strategy (Ok)
-
-    > - Prototype (CTRL+C e CTRL+V)
-    > - Memento (CTRL+Z)
-    > - Singleton (Objeto único)
-    > - Observer 
-    > - State
+    > - Strategy
+    > - Singleton
+    > - Memento
+    > - Prototype (Não Implementado)
+    > - Observer (Não Implementado)
+    > - State (Não Implementado)
