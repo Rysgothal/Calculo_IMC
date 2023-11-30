@@ -3,4 +3,4 @@ Win32
 *.local
 *.identcache
 *.bak
-*.__history
+__history
