@@ -42,6 +42,7 @@ type
     procedure edtNascimentoChange(Sender: TObject);
     procedure edtNomeExit(Sender: TObject);
     procedure rgpSexoClick(Sender: TObject);
+    procedure rgpSexoExit(Sender: TObject);
   private
     { Private declarations }
     FPacientes: TPacientes;
@@ -253,6 +254,11 @@ begin
 end;
 
 procedure TfrmDadosCalculoIMC.rgpSexoClick(Sender: TObject);
+begin
+  FPacientes.Atual.Sexo := TSexoPaciente(rgpSexo.ItemIndex);
+end;
+
+procedure TfrmDadosCalculoIMC.rgpSexoExit(Sender: TObject);
 begin
   FPacientes.Atual.Sexo := TSexoPaciente(rgpSexo.ItemIndex);
 end;

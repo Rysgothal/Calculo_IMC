@@ -130,7 +130,6 @@ object frmDadosCalculoIMC: TfrmDadosCalculoIMC
       Font.Height = -12
       Font.Name = 'Segoe UI'
       Font.Style = []
-      ItemIndex = 1
       Items.Strings = (
         '&Feminino'
         '&Masculino')
@@ -139,6 +138,7 @@ object frmDadosCalculoIMC: TfrmDadosCalculoIMC
       TabOrder = 2
       WordWrap = True
       OnClick = rgpSexoClick
+      OnExit = rgpSexoExit
     end
     object edtNome: TEdit
       Left = 87
@@ -153,7 +153,6 @@ object frmDadosCalculoIMC: TfrmDadosCalculoIMC
       Font.Style = []
       ParentFont = False
       TabOrder = 0
-      Text = 'LUCAS FRADE'
       OnChange = edtNomeChange
       OnExit = edtNomeExit
     end
@@ -169,7 +168,6 @@ object frmDadosCalculoIMC: TfrmDadosCalculoIMC
       Font.Style = []
       ParentFont = False
       TabOrder = 1
-      Text = '14/11/2001'
       OnChange = edtNascimentoChange
       OnExit = edtNascimentoExit
     end
@@ -245,7 +243,7 @@ object frmDadosCalculoIMC: TfrmDadosCalculoIMC
         OnClick = sbtnCalcularClick
       end
       object edtPeso: TEdit
-        Left = 15
+        Left = 19
         Top = 46
         Width = 89
         Height = 23
@@ -253,7 +251,6 @@ object frmDadosCalculoIMC: TfrmDadosCalculoIMC
         ParentShowHint = False
         ShowHint = False
         TabOrder = 0
-        Text = '90,00'
         OnChange = edtPesoChange
         OnExit = edtPesoExit
       end
@@ -266,7 +263,6 @@ object frmDadosCalculoIMC: TfrmDadosCalculoIMC
         ParentShowHint = False
         ShowHint = False
         TabOrder = 1
-        Text = '1,75'
         OnChange = edtAlturaChange
         OnExit = edtAlturaExit
       end

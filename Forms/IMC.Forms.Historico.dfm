@@ -5,7 +5,7 @@ object frmHistorico: TfrmHistorico
   BorderStyle = bsSingle
   Caption = 'Hist'#243'rico'
   ClientHeight = 328
-  ClientWidth = 253
+  ClientWidth = 335
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -32,7 +32,7 @@ object frmHistorico: TfrmHistorico
   object lbxHistoricoAlteracoes: TListBox
     Left = 8
     Top = 22
-    Width = 237
+    Width = 319
     Height = 296
     ItemHeight = 15
     TabOrder = 0
