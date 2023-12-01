@@ -16,6 +16,7 @@ type
     FStatusIMC: TStatusIMC;
     FMediaIMC: Single;
     FIdade: string;
+    FSexo: TSexoPaciente;
     procedure SetAltura(const pValor: string);
     procedure SetNascimento(const pValor: string);
     procedure SetPeso(const pValor: string);
@@ -29,6 +30,8 @@ type
     property Altura: string read FAltura write SetAltura;
     property StatusIMC: TStatusIMC read FStatusIMC write FStatusIMC;
     property MediaIMC: Single read FMediaIMC write FMediaIMC;
+    property Sexo: TSexoPaciente read FSexo write FSexo;
+    constructor Create;
     procedure Limpar;
   end;
 
@@ -53,7 +56,6 @@ begin
   lMeses   := MonthsBetween(IncYear(lDataNascimento, lAnos), Date);
   lSemanas := WeeksBetween(IncMonth(IncYear(lDataNascimento, lAnos), lMeses), Date);
   lDias    := DaysBetween(IncWeek(IncMonth(IncYear(lDataNascimento, lAnos), lMeses), lSemanas), Date);
-
 
   case lAnos of
     0: ;
@@ -92,13 +94,25 @@ begin
   MediaIMC := StrToFloat(Peso) / Power(StrToFloat(Altura), 2);
 end;
 
+constructor TPessoa.Create;
+begin
+  FNome := EmptyStr;
+  FNascimento := EmptyStr;
+  FPeso := EmptyStr;
+  FAltura := EmptyStr;
+  FStatusIMC := siNaoCalculado;
+  FSexo := spNaoInformado;
+  FMediaIMC := 0;
+  FIdade := EmptyStr;
+end;
+
 procedure TPessoa.Limpar;
 begin
   FNome := EmptyStr;
   FNascimento := EmptyStr;
   FPeso := EmptyStr;
   FAltura := EmptyStr;
-  FStatusIMC := siAbaixo;
+  FStatusIMC := siNaoCalculado;
   FMediaIMC := 0;
   FIdade := 'anos; meses; semanas; dias;';
 end;

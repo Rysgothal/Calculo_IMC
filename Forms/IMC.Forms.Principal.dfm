@@ -12,7 +12,6 @@ object frmPrincipal: TfrmPrincipal
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
-  OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 15
@@ -41,424 +40,44 @@ object frmPrincipal: TfrmPrincipal
       end>
     UseSystemFont = False
   end
-  object gbxDadosPaciente: TGroupBox
-    Left = 8
-    Top = 8
-    Width = 770
-    Height = 313
-    Caption = 'Dados do Paciente'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Segoe UI'
-    Font.Style = [fsBold]
-    ParentFont = False
-    TabOrder = 0
-    object lblNome: TLabel
-      Left = 47
-      Top = 32
-      Width = 36
-      Height = 15
-      Alignment = taRightJustify
-      Caption = 'Nome:'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Segoe UI'
-      Font.Style = []
-      ParentFont = False
-    end
-    object lblNascimento: TLabel
-      Left = 16
-      Top = 62
-      Width = 67
-      Height = 15
-      Alignment = taRightJustify
-      Caption = 'Nascimento:'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Segoe UI'
-      Font.Style = []
-      ParentFont = False
-    end
-    object lblIdadeCompleta: TLabel
-      Left = 217
-      Top = 62
-      Width = 87
-      Height = 15
-      Alignment = taRightJustify
-      Caption = 'Idade Completa:'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Segoe UI'
-      Font.Style = []
-      ParentFont = False
-    end
-    object lblAnoMesesSemanasDias: TLabel
-      Left = 314
-      Top = 62
-      Width = 146
-      Height = 15
-      Caption = 'anos; meses; semanas; dias'
-    end
-    object sbtnLimpar: TSpeedButton
-      Left = 698
-      Top = 280
-      Width = 69
-      Height = 30
-      DisabledImageIndex = 3
-      Caption = '&Limpar'
-      ImageIndex = 2
-      Images = Imagens
-      Enabled = False
-      OnClick = sbtnLimparClick
-    end
-    object lblIMC: TLabel
-      Left = 434
-      Top = 203
-      Width = 37
-      Height = 28
-      Caption = 'IMC'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = cl3DDkShadow
-      Font.Height = -20
-      Font.Name = 'Segoe UI'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
-    object lblSeta: TLabel
-      Left = 421
-      Top = 180
-      Width = 80
-      Height = 124
-      Alignment = taCenter
-      Caption = #8594
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clMedGray
-      Font.Height = -93
-      Font.Name = 'Segoe UI'
-      Font.Style = []
-      ParentFont = False
-      Layout = tlCenter
-    end
-    object btnHistorico: TSpeedButton
-      Left = 605
-      Top = 280
-      Width = 87
-      Height = 30
-      DisabledImageIndex = 5
-      Caption = '&Hist'#243'rico'
-      ImageIndex = 4
-      Images = Imagens
-      Enabled = False
-      OnClick = btnHistoricoClick
-    end
-    object rgpSexo: TRadioGroup
-      Left = 83
-      Top = 95
-      Width = 201
-      Height = 42
-      Caption = 'Sexo'
-      Columns = 2
-      DoubleBuffered = True
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Segoe UI'
-      Font.Style = []
-      Items.Strings = (
-        '&Feminino'
-        '&Masculino')
-      ParentDoubleBuffered = False
-      ParentFont = False
-      TabOrder = 2
-      WordWrap = True
-    end
-    object edtNome: TEdit
-      Left = 87
-      Top = 29
-      Width = 590
-      Height = 23
-      CharCase = ecUpperCase
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Segoe UI'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 0
-      OnChange = edtNomeChange
-      OnExit = edtNomeExit
-    end
-    object edtNascimento: TEdit
-      Left = 87
-      Top = 58
-      Width = 104
-      Height = 23
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Segoe UI'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 1
-      OnChange = edtNascimentoChange
-      OnExit = edtNascimentoExit
-    end
-    object gbxDadosCalculo: TGroupBox
-      Left = 83
-      Top = 156
-      Width = 286
-      Height = 138
-      Caption = 'Dados para C'#225'lculo do IMC'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Segoe UI'
-      Font.Style = []
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = False
-      TabOrder = 3
-      object lblPeso: TLabel
-        Left = 32
-        Top = 25
-        Width = 50
-        Height = 15
-        Caption = 'Peso (Kg)'
-      end
-      object lblAltura: TLabel
-        Left = 172
-        Top = 25
-        Width = 54
-        Height = 15
-        Caption = 'Altura (m)'
-      end
-      object sbtnCalcular: TSpeedButton
-        Left = 80
-        Top = 88
-        Width = 105
-        Height = 33
-        ParentCustomHint = False
-        DisabledImageIndex = 1
-        Caption = '&Calcular ->'
-        ImageIndex = 0
-        Images = Imagens
-        ParentShowHint = False
-        ShowHint = False
-        OnClick = sbtnCalcularClick
-      end
-      object edtPeso: TEdit
-        Left = 15
-        Top = 46
-        Width = 89
-        Height = 23
-        MaxLength = 6
-        ParentShowHint = False
-        ShowHint = False
-        TabOrder = 0
-        OnChange = edtPesoChange
-        OnExit = edtPesoExit
-      end
-      object edtAltura: TEdit
-        Left = 142
-        Top = 46
-        Width = 99
-        Height = 23
-        MaxLength = 5
-        ParentShowHint = False
-        ShowHint = False
-        TabOrder = 1
-        OnChange = edtAlturaChange
-        OnExit = edtAlturaExit
-      end
-    end
-    object edtIMC: TEdit
-      Left = 555
-      Top = 202
-      Width = 110
-      Height = 59
-      Alignment = taCenter
-      BevelInner = bvLowered
-      BevelKind = bkSoft
-      BevelOuter = bvSpace
-      BiDiMode = bdRightToLeft
-      BorderStyle = bsNone
-      Color = clBtnFace
-      Ctl3D = True
-      DoubleBuffered = False
-      Enabled = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -36
-      Font.Name = 'Segoe UI'
-      Font.Style = [fsBold]
-      ParentBiDiMode = False
-      ParentCtl3D = False
-      ParentDoubleBuffered = False
-      ParentFont = False
-      CanUndoSelText = True
-      ReadOnly = True
-      TabOrder = 4
-      Text = '0,0'
+  inline frmResultadoIMC: TfrmResultadoIMC
+    Left = 0
+    Top = 322
+    Width = 789
+    Height = 140
+    Align = alBottom
+    TabOrder = 1
+    ExplicitTop = 322
+    ExplicitWidth = 789
+    ExplicitHeight = 140
+    inherited gbxResultado: TGroupBox
+      Top = -1
+      ExplicitTop = -1
     end
   end
-  object gbxResultado: TGroupBox
-    Left = 8
-    Top = 324
-    Width = 770
-    Height = 130
-    Caption = 'Resultado'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -12
-    Font.Name = 'Segoe UI'
-    Font.Style = [fsBold]
-    ParentFont = False
-    TabOrder = 1
-    object shpAbaixoPeso: TShape
-      Left = 16
-      Top = 49
-      Width = 149
-      Height = 52
-      Brush.Color = 15132390
-      Pen.Style = psClear
-    end
-    object shpPesoIdeal: TShape
-      Left = 163
-      Top = 49
-      Width = 149
-      Height = 52
-      Brush.Color = 14145495
-      Pen.Style = psClear
-    end
-    object shpPoucoAcima: TShape
-      Left = 309
-      Top = 49
-      Width = 149
-      Height = 52
-      Brush.Color = 13224393
-      Pen.Style = psClear
-    end
-    object shpAcimaPeso: TShape
-      Left = 457
-      Top = 49
-      Width = 149
-      Height = 52
-      Brush.Color = 12369084
-      Pen.Style = psClear
-    end
-    object shpObesidade: TShape
-      Left = 605
-      Top = 49
-      Width = 149
-      Height = 52
-      Brush.Color = 11053224
-      Pen.Style = psClear
-    end
-    object lblAbaixoPeso: TLabel
-      Left = 36
-      Top = 65
-      Width = 108
-      Height = 20
-      Caption = 'Abaixo do Peso'
-      Color = clBlue
-      Enabled = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clHotLight
-      Font.Height = -15
-      Font.Name = 'Segoe UI'
-      Font.Style = [fsBold]
-      ParentColor = False
-      ParentFont = False
-    end
-    object lblPesoIdeal: TLabel
-      Left = 200
-      Top = 65
-      Width = 71
-      Height = 20
-      Caption = 'Peso Ideal'
-      Enabled = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGreen
-      Font.Height = -15
-      Font.Name = 'Segoe UI'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
-    object lblPoucoAcima: TLabel
-      Left = 310
-      Top = 65
-      Width = 147
-      Height = 20
-      Caption = 'Pouco acima do Peso'
-      Enabled = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clOlive
-      Font.Height = -15
-      Font.Name = 'Segoe UI'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
-    object lblAcimaPeso: TLabel
-      Left = 480
-      Top = 65
-      Width = 103
-      Height = 20
-      Caption = 'Acima do Peso'
-      Enabled = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = 16319
-      Font.Height = -15
-      Font.Name = 'Segoe UI'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
-    object lblObesidade: TLabel
-      Left = 643
-      Top = 65
-      Width = 73
-      Height = 20
-      Caption = 'Obesidade'
-      Enabled = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clMaroon
-      Font.Height = -15
-      Font.Name = 'Segoe UI'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
-    object lblSetaBottom: TLabel
-      Left = 375
-      Top = 91
-      Width = 20
-      Height = 31
-      Alignment = taCenter
-      Caption = #9650
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -23
-      Font.Name = 'Segoe UI'
-      Font.Style = [fsBold]
-      ParentFont = False
-      Visible = False
-    end
-    object lblSetaTop: TLabel
-      Left = 375
-      Top = 22
-      Width = 20
-      Height = 31
-      Alignment = taCenter
-      Caption = #9660
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -23
-      Font.Name = 'Segoe UI'
-      Font.Style = [fsBold]
-      ParentFont = False
-      Visible = False
+  inline frmDadosPaciente: TfrmDadosCalculoIMC
+    Left = 0
+    Top = 0
+    Width = 789
+    Height = 316
+    Align = alTop
+    TabOrder = 2
+    ExplicitWidth = 789
+    ExplicitHeight = 316
+    inherited gbxDadosPaciente: TGroupBox
+      Top = 2
+      ExplicitTop = 2
+      inherited sbtnLimpar: TSpeedButton
+        OnClick = frmDadosPacientesbtnLimparClick
+      end
+      inherited btnHistorico: TSpeedButton
+        OnClick = frmDadosPacientebtnHistoricoClick
+      end
+      inherited gbxDadosCalculo: TGroupBox
+        inherited sbtnCalcular: TSpeedButton
+          OnClick = frmDadosPacientesbtnCalcularClick
+        end
+      end
     end
   end
   object Imagens: TImageList

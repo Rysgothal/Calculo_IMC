@@ -4,7 +4,8 @@ interface
 
 uses
   IMC.Interfaces.StrategyIMC, IMC.Helpers.Enumerados, IMC.Classes.Pessoa,
-  IMC.Classes.Historico, IMC.Classes.Restaurar;
+  IMC.Classes.Historico, IMC.Classes.Restaurar,
+  IMC.Interfaces.Subject, System.Generics.Collections, IMC.Interfaces.Observer;
 
 type
   { Strategy - Contexto }
@@ -18,19 +19,26 @@ type
 
   { Singleton }
   { Memento   }
+  { Observer  }
   TPacientes = class
   private
     FAtual: TPaciente;
     FHistorico: THistorico;
+    FObservers: TList<IObserver>;
   public
     property Atual: TPaciente read FAtual write FAtual;
     property Historico: THistorico read FHistorico write FHistorico;
+    property Observers: TList<IObserver> read FObservers;
     constructor Create;
     destructor Destroy; override;
 
     // Memento
     function Salvar: TRestaurar;
     procedure Restaurar(pRestaurar: TRestaurar);
+
+    // Observer
+    procedure AdicionarObserver(pObserver: IObserver);
+    procedure RemoverObserver(pObserver: IObserver);
   end;
 
 implementation
@@ -64,17 +72,29 @@ end;
 
 { TPacientes }
 
+procedure TPacientes.AdicionarObserver(pObserver: IObserver);
+begin
+  FObservers.Add(pObserver);
+end;
+
 constructor TPacientes.Create;
 begin
   FHistorico := THistorico.Create;
   FAtual := TPaciente.Create;
+  FObservers := TList<IObserver>.Create;
 end;
 
 destructor TPacientes.Destroy;
 begin
   FreeAndNil(FAtual);
   FreeAndNil(FHistorico);
+  FreeAndNil(FObservers);
   inherited;
+end;
+
+procedure TPacientes.RemoverObserver(pObserver: IObserver);
+begin
+  FObservers.Delete(FObservers.IndexOf(pObserver));
 end;
 
 procedure TPacientes.Restaurar(pRestaurar: TRestaurar);
@@ -86,6 +106,7 @@ begin
   Atual.Altura := pRestaurar.Altura;
   Atual.StatusIMC := pRestaurar.StatusIMC;
   Atual.MediaIMC := pRestaurar.MediaIMC;
+  Atual.Sexo := pRestaurar.Sexo;
 end;
 
 function TPacientes.Salvar: TRestaurar;
@@ -99,6 +120,7 @@ begin
   Result.Altura := Atual.Altura;
   Result.StatusIMC := Atual.StatusIMC;
   Result.MediaIMC := Atual.MediaIMC;
+  Result.Sexo := Atual.Sexo;
 end;
 
 end.

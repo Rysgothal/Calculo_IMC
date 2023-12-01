@@ -119,6 +119,18 @@
             <Form>frmHistorico</Form>
         </DCCReference>
         <DCCReference Include="Interfaces\Strategy\IMC.Interfaces.StrategyIMC.pas"/>
+        <DCCReference Include="Frames\IMC.Frames.ResultadoIMC.pas">
+            <Form>frmResultadoIMC</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Interfaces\Observer\IMC.Interfaces.Observer.pas"/>
+        <DCCReference Include="Interfaces\Observer\IMC.Interfaces.Subject.pas"/>
+        <DCCReference Include="Frames\IMC.Frames.DadosCalculoIMC.pas">
+            <Form>frmDadosCalculoIMC</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -953,8 +965,8 @@
                 <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="OSX64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Android64" Name="$(PROJECTNAME)"/>
-                <ProjectRoot Platform="OSXARM64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="OSXARM64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Linux64" Name="$(PROJECTNAME)"/>

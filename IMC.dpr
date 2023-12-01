@@ -13,7 +13,11 @@ uses
   IMC.Classes.Historico in 'Classes\Memento\IMC.Classes.Historico.pas',
   IMC.Classes.Paciente in 'Classes\IMC.Classes.Paciente.pas',
   IMC.Forms.Historico in 'Forms\IMC.Forms.Historico.pas' {frmHistorico},
-  IMC.Interfaces.StrategyIMC in 'Interfaces\Strategy\IMC.Interfaces.StrategyIMC.pas';
+  IMC.Interfaces.StrategyIMC in 'Interfaces\Strategy\IMC.Interfaces.StrategyIMC.pas',
+  IMC.Frames.ResultadoIMC in 'Frames\IMC.Frames.ResultadoIMC.pas' {frmResultadoIMC: TFrame},
+  IMC.Interfaces.Observer in 'Interfaces\Observer\IMC.Interfaces.Observer.pas',
+  IMC.Interfaces.Subject in 'Interfaces\Observer\IMC.Interfaces.Subject.pas',
+  IMC.Frames.DadosCalculoIMC in 'Frames\IMC.Frames.DadosCalculoIMC.pas' {frmDadosCalculoIMC: TFrame};
 
 {$R *.res}
 
