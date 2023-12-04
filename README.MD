@@ -17,6 +17,6 @@ Com isso poderá acionar o botão Calcular, que irá aparecer seu resultado.
     > - Strategy
     > - Singleton
     > - Memento
-    > - Prototype (Não Implementado)
-    > - Observer (Não Implementado)
-    > - State (Não Implementado)
+    > - Observer
+    > - Abstract Factory
+    > - Factory Method

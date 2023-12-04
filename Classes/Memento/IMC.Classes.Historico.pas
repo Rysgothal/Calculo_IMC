@@ -7,6 +7,7 @@ uses
 
 
 type
+  { Memento }
   THistorico = class
   private
     FLista: TObjectDictionary<string, TRestaurar>;

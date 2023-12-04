@@ -17,7 +17,14 @@ uses
   IMC.Frames.ResultadoIMC in 'Frames\IMC.Frames.ResultadoIMC.pas' {frmResultadoIMC: TFrame},
   IMC.Interfaces.Observer in 'Interfaces\Observer\IMC.Interfaces.Observer.pas',
   IMC.Interfaces.Subject in 'Interfaces\Observer\IMC.Interfaces.Subject.pas',
-  IMC.Frames.DadosCalculoIMC in 'Frames\IMC.Frames.DadosCalculoIMC.pas' {frmDadosCalculoIMC: TFrame};
+  IMC.Frames.DadosCalculoIMC in 'Frames\IMC.Frames.DadosCalculoIMC.pas' {frmDadosCalculoIMC: TFrame},
+  IMC.Interfaces.AbstractFactory in 'Interfaces\Abstract_Factory\IMC.Interfaces.AbstractFactory.pas',
+  IMC.Classes.ConsultarSeta in 'Classes\Abstract_Factory\IMC.Classes.ConsultarSeta.pas',
+  IMC.Classes.ConfigSeta in 'Classes\Abstract_Factory\IMC.Classes.ConfigSeta.pas',
+  IMC.Interfaces.FabricaShapeCores in 'Interfaces\Factory_Method\IMC.Interfaces.FabricaShapeCores.pas',
+  IMC.Interfaces.CoresShape in 'Interfaces\Factory_Method\IMC.Interfaces.CoresShape.pas',
+  IMC.Classes.FabricaShapeCor in 'Classes\Factory_Method\IMC.Classes.FabricaShapeCor.pas',
+  IMC.Classes.ShapeCores in 'Classes\Factory_Method\IMC.Classes.ShapeCores.pas';
 
 {$R *.res}
 

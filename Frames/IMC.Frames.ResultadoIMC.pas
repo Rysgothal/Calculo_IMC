@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
-  IMC.Helpers.Enumerados, IMC.Interfaces.Observer;
+  IMC.Helpers.Enumerados, IMC.Interfaces.Observer,
+  IMC.Interfaces.AbstractFactory, IMC.Interfaces.FabricaShapeCores;
 
 type
   TfrmResultadoIMC = class(TFrame, IObserver)
@@ -26,7 +27,7 @@ type
     procedure HabilitarShapes(pHabilitar: Boolean);
     procedure HabilitarComponentesResultado(pHabilitar: Boolean);
     procedure MoverSetas(pStatusIMC: TStatusIMC);
-    procedure ConfigurarPainelResultado(pPosSetas: Integer; pCorSeta: TColor);
+    procedure ConfigurarPainelResultado(pConfigSeta: ISetaConfiguracao);
     { Private declarations }
   public
     procedure Atualizar(pStatusIMC: TStatusIMC);
@@ -34,6 +35,10 @@ type
   end;
 
 implementation
+
+uses
+  IMC.Classes.ConsultarSeta, IMC.Classes.FabricaShapeCor,
+  IMC.Interfaces.CoresShape;
 
 {$R *.dfm}
 
@@ -47,6 +52,14 @@ begin
   end;
 
   MoverSetas(pStatusIMC);
+end;
+
+procedure TfrmResultadoIMC.ConfigurarPainelResultado(pConfigSeta: ISetaConfiguracao);
+begin
+  lblSetaBottom.Left := pConfigSeta.PosicaoSeta;
+  lblSetaBottom.Font.Color := pConfigSeta.CorSeta;
+  lblSetaTop.Left := pConfigSeta.PosicaoSeta;
+  lblSetaTop.Font.Color := pConfigSeta.CorSeta;
 end;
 
 procedure TfrmResultadoIMC.HabilitarComponentesResultado(pHabilitar: Boolean);
@@ -63,40 +76,39 @@ begin
 end;
 
 procedure TfrmResultadoIMC.HabilitarShapes(pHabilitar: Boolean);
+var
+  lFabricaCores: TFabricaShapeCor;
+  lCores: IShapeCor;
 begin
-  shpAbaixoPeso.Brush.Color := $00E6E6E6;
-  shpPesoIdeal.Brush.Color := $00D7D7D7;
-  shpPoucoAcima.Brush.Color := $00C9C9C9;
-  shpAcimaPeso.Brush.Color := $00BCBCBC;            // abstract factory
-  shpObesidade.Brush.Color := $00A8A8A8;
+  lFabricaCores := TFabricaShapeCor.Create;
 
-  if pHabilitar then
-  begin
-    shpAbaixoPeso.Brush.Color := $00D1B499;
-    shpPesoIdeal.Brush.Color := $00C0DCC0;
-    shpPoucoAcima.Brush.Color := $00BBFFFF;
-    shpAcimaPeso.Brush.Color := $008CC6FF;
-    shpObesidade.Brush.Color := $007D7DFF;
+  try
+    lCores := lFabricaCores.ConsultarCorShape(pHabilitar);
+
+    shpAbaixoPeso.Brush.Color := lCores.CorAbaixoPeso;
+    shpPesoIdeal.Brush.Color := lCores.CorPesoIdeal;
+    shpPoucoAcima.Brush.Color := lCores.CorPoucoAcimaPeso;
+    shpAcimaPeso.Brush.Color := lCores.CorAcimaPeso;
+    shpObesidade.Brush.Color := lCores.CorObeso;
+  finally
+    FreeAndNil(lFabricaCores);
   end;
 end;
 
 procedure TfrmResultadoIMC.MoverSetas(pStatusIMC: TStatusIMC);
+var
+  lStatus: IFabricaStatusIMC;
 begin
   case pStatusIMC of
-    siAbaixo: ConfigurarPainelResultado(80, $00D1B499);
-    siIdeal: ConfigurarPainelResultado(229, $00C0DCC0);
-    siPoucoAcima: ConfigurarPainelResultado(375, $00BBFFFF);
-    siAcima: ConfigurarPainelResultado(526, $008CC6FF);
-    siObeso: ConfigurarPainelResultado(673, $007D7DFF);
+    siAbaixo: lStatus := TAbaixoPeso.Create;
+    siIdeal: lStatus := TPesoIdeal.Create;
+    siPoucoAcima: lStatus := TPoucoAcimaPeso.Create;
+    siAcima: lStatus := TAcimaPeso.Create;
+    siObeso: lStatus := TObeso.Create;
+    else lStatus := TNaoCalculado.Create;
   end;
-end;
 
-procedure TfrmResultadoIMC.ConfigurarPainelResultado(pPosSetas: Integer; pCorSeta: TColor);
-begin
-  lblSetaBottom.Left := pPosSetas;
-  lblSetaBottom.Font.Color := pCorSeta;
-  lblSetaTop.Left := pPosSetas;
-  lblSetaTop.Font.Color := pCorSeta;
+  ConfigurarPainelResultado(lStatus.ConsultarConfSeta);
 end;
 
 end.

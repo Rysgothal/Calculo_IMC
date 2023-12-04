@@ -131,6 +131,13 @@
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
+        <DCCReference Include="Interfaces\Abstract_Factory\IMC.Interfaces.AbstractFactory.pas"/>
+        <DCCReference Include="Classes\Abstract_Factory\IMC.Classes.ConsultarSeta.pas"/>
+        <DCCReference Include="Classes\Abstract_Factory\IMC.Classes.ConfigSeta.pas"/>
+        <DCCReference Include="Interfaces\Factory_Method\IMC.Interfaces.FabricaShapeCores.pas"/>
+        <DCCReference Include="Interfaces\Factory_Method\IMC.Interfaces.CoresShape.pas"/>
+        <DCCReference Include="Classes\Factory_Method\IMC.Classes.FabricaShapeCor.pas"/>
+        <DCCReference Include="Classes\Factory_Method\IMC.Classes.ShapeCores.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -964,8 +971,8 @@
                 </DeployClass>
                 <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="OSX64" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="Android64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="Android64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="OSXARM64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
