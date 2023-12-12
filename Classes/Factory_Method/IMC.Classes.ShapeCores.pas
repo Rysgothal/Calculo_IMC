@@ -8,6 +8,7 @@ uses
 type
   { Factory Method }
   TShapeHabilitado = class(TInterfacedObject, IShapeCor)
+  public
     function CorAbaixoPeso: TColor;
     function CorPesoIdeal: TColor;
     function CorPoucoAcimaPeso: TColor;
@@ -17,6 +18,7 @@ type
 
   { Factory Method }
   TShapeDesabilitado = class(TInterfacedObject, IShapeCor)
+  public
     function CorAbaixoPeso: TColor;
     function CorPesoIdeal: TColor;
     function CorPoucoAcimaPeso: TColor;

@@ -17,6 +17,7 @@ type
     FMediaIMC: Single;
     FIdade: string;
     FSexo: TSexoPaciente;
+    FID: Integer;
   public
     property Nome: string read FNome write FNome;
     property Nascimento: string read FNascimento write FNascimento;
@@ -26,6 +27,7 @@ type
     property StatusIMC: TStatusIMC read FStatusIMC write FStatusIMC;
     property MediaIMC: Single read FMediaIMC write FMediaIMC;
     property Sexo: TSexoPaciente read FSexo write FSexo;
+    property ID: Integer read FID write FID;
   end;
 
 

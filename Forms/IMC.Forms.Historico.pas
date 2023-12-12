@@ -13,10 +13,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure lbxHistoricoAlteracoesClick(Sender: TObject);
   private
-    FPacientes: TPacientes;
     { Private declarations }
   public
-    constructor Create(var pPacientes: TPacientes); reintroduce; overload;
     { Public declarations }
   end;
 
@@ -32,17 +30,17 @@ uses
 
 { TfrmHistorico }
 
-constructor TfrmHistorico.Create(var pPacientes: TPacientes);
-begin
-  inherited Create(Owner);
-  FPacientes := pPacientes;
-end;
-
 procedure TfrmHistorico.FormCreate(Sender: TObject);
+var
+  lPacientes: TPacientesSingleton;
 begin
-  for var lPaciente in FPacientes.Historico.Lista do
+  lPacientes := TPacientesSingleton.ObterInstancia;
+
+  for var lPaciente in lPacientes.Historico.Lista do
   begin
-    lbxHistoricoAlteracoes.Items.Add(lPaciente.Key + ' --> ' + lPaciente.Value.Nome + ', ' + lPaciente.Value.Nascimento);
+    lbxHistoricoAlteracoes.Items.Add(
+      lPaciente.Key.ToString + ' --> ' + lPaciente.Value.Nome + ', ' + lPaciente.Value.Nascimento
+    );
   end;
 
   lbxHistoricoAlteracoes.ItemIndex := 0;
@@ -50,13 +48,16 @@ end;
 
 procedure TfrmHistorico.lbxHistoricoAlteracoesClick(Sender: TObject);
 var
-  lDataHora: string;
+  lPacientes: TPacientesSingleton;
+  lIDPaciente: string;
 begin
-  lDataHora := lbxHistoricoAlteracoes.Items[lbxHistoricoAlteracoes.ItemIndex];
-  lDataHora := Copy(lDataHora, 0, PosEx(' -->', lDataHora) - 1);
-  FPacientes.Restaurar(FPacientes.Historico.Recuperar(lDataHora));
+  lPacientes := TPacientesSingleton.ObterInstancia;
+  lIDPaciente := lbxHistoricoAlteracoes.Items[lbxHistoricoAlteracoes.ItemIndex];
+  lIDPaciente := Copy(lIDPaciente, 0, PosEx(' -->', lIDPaciente) - 1);
 
-  Close;
+  lPacientes.Restaurar(lPacientes.Historico.Recuperar(lIDPaciente.ToInteger));
+
+  ModalResult := mrOk;
 end;
 
 end.

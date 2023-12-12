@@ -68,7 +68,7 @@ object frmDadosCalculoIMC: TfrmDadosCalculoIMC
       Caption = 'anos; meses; semanas; dias'
     end
     object sbtnLimpar: TSpeedButton
-      Left = 698
+      Left = 622
       Top = 280
       Width = 69
       Height = 30
@@ -107,7 +107,7 @@ object frmDadosCalculoIMC: TfrmDadosCalculoIMC
       Layout = tlCenter
     end
     object btnHistorico: TSpeedButton
-      Left = 605
+      Left = 530
       Top = 280
       Width = 87
       Height = 30
@@ -116,6 +116,17 @@ object frmDadosCalculoIMC: TfrmDadosCalculoIMC
       ImageIndex = 4
       Enabled = False
       OnClick = btnHistoricoClick
+    end
+    object btnNovo: TSpeedButton
+      Left = 696
+      Top = 280
+      Width = 69
+      Height = 30
+      DisabledImageIndex = 3
+      Caption = '&Novo'
+      ImageIndex = 2
+      Enabled = False
+      OnClick = btnNovoClick
     end
     object rgpSexo: TRadioGroup
       Left = 83
@@ -216,21 +227,21 @@ object frmDadosCalculoIMC: TfrmDadosCalculoIMC
       ShowHint = False
       TabOrder = 4
       object lblPeso: TLabel
-        Left = 32
-        Top = 25
+        Left = 38
+        Top = 32
         Width = 50
         Height = 15
         Caption = 'Peso (Kg)'
       end
       object lblAltura: TLabel
-        Left = 172
-        Top = 25
+        Left = 182
+        Top = 32
         Width = 54
         Height = 15
         Caption = 'Altura (m)'
       end
       object sbtnCalcular: TSpeedButton
-        Left = 80
+        Left = 90
         Top = 88
         Width = 105
         Height = 33
@@ -244,10 +255,13 @@ object frmDadosCalculoIMC: TfrmDadosCalculoIMC
       end
       object edtPeso: TEdit
         Left = 19
-        Top = 46
+        Top = 53
         Width = 89
         Height = 23
+        Alignment = taCenter
+        BiDiMode = bdLeftToRight
         MaxLength = 6
+        ParentBiDiMode = False
         ParentShowHint = False
         ShowHint = False
         TabOrder = 0
@@ -255,11 +269,14 @@ object frmDadosCalculoIMC: TfrmDadosCalculoIMC
         OnExit = edtPesoExit
       end
       object edtAltura: TEdit
-        Left = 142
-        Top = 46
+        Left = 160
+        Top = 53
         Width = 99
         Height = 23
+        Alignment = taCenter
+        BiDiMode = bdLeftToRight
         MaxLength = 5
+        ParentBiDiMode = False
         ParentShowHint = False
         ShowHint = False
         TabOrder = 1

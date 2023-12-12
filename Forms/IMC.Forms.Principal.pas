@@ -37,10 +37,14 @@ uses
 {$R *.dfm}
 
 procedure TfrmPrincipal.FormCreate(Sender: TObject);
+var
+  lPacientes: TPacientesSingleton;
 begin
+  lPacientes := TPacientesSingleton.ObterInstancia;
+
   sttsbarInformacao.Panels[0].Text := DateToStr(Now);
   tmrHorario.Enabled := True;
-  frmDadosPaciente.AdicionarObserver(frmResultadoIMC);
+  lPacientes.AdicionarObserver(frmResultadoIMC);
 end;
 
 procedure TfrmPrincipal.frmDadosPacientebtnHistoricoClick(Sender: TObject);

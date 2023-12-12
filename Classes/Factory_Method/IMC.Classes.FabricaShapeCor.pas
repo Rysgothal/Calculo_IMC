@@ -8,6 +8,7 @@ uses
 type
   { Factory Method }
   TFabricaShapeCor = class(TInterfacedObject, IFabricaShapeCores)
+  public
     function ConsultarCorShape(const pHabilitar: Boolean): IShapeCor;
   end;
 

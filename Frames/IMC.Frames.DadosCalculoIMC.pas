@@ -30,6 +30,7 @@ type
     sbtnCalcular: TSpeedButton;
     edtPeso: TEdit;
     edtAltura: TEdit;
+    btnNovo: TSpeedButton;
     procedure edtPesoChange(Sender: TObject);
     procedure edtPesoExit(Sender: TObject);
     procedure edtAlturaChange(Sender: TObject);
@@ -43,10 +44,9 @@ type
     procedure edtNomeExit(Sender: TObject);
     procedure rgpSexoClick(Sender: TObject);
     procedure rgpSexoExit(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
   private
     { Private declarations }
-    FPacientes: TPacientes;
-
     procedure Notificar;
     procedure Calcular;
     procedure SalvarHistorico;
@@ -54,12 +54,9 @@ type
     procedure LimparDados;
     procedure Limpar;
     procedure TratarExcessoes(pE: Exception);
+    function VerificarEditsPreenchidos: Boolean;
   public
     { Public declarations }
-    constructor Create(AOwner: TComponent); override;
-    destructor Destroy; override;
-    procedure AdicionarObserver(pObserver: IObserver);
-    procedure RemoverObserver(pObserver: IObserver);
   end;
 
 implementation
@@ -71,31 +68,49 @@ uses
 
 { TfrmDadosCalculoIMC }
 
-procedure TfrmDadosCalculoIMC.AdicionarObserver(pObserver: IObserver);
-begin
-  FPacientes.AdicionarObserver(pObserver);
-end;
-
 procedure TfrmDadosCalculoIMC.btnHistoricoClick(Sender: TObject);
+var
+  lPacientes: TPacientesSingleton;
 begin
+  lPacientes := TPacientesSingleton.ObterInstancia;
+
   if not Assigned(frmHistorico) then
   begin
-    frmHistorico := TfrmHistorico.Create(FPacientes);
+    frmHistorico := TfrmHistorico.Create(Self);
 
     try
       frmHistorico.ShowModal;
+
+      if frmHistorico.ModalResult = mrCancel then
+      begin
+        Exit;
+      end;
+
+      edtNome.Text := lPacientes.Atual.Nome;
+      edtNascimento.Text := lPacientes.Atual.Nascimento;
+      edtPeso.Text := lPacientes.Atual.Peso;
+      edtAltura.Text := lPacientes.Atual.Altura;
+      edtIMC.Text := lPacientes.Atual.MediaIMC.ToString;
+      rgpSexo.ItemIndex := Ord(lPacientes.Atual.Sexo);
+      Calcular;
     finally
       FreeAndNil(frmHistorico);
     end;
   end;
+end;
 
-  edtNome.Text := FPacientes.Atual.Nome;
-  edtNascimento.Text := FPacientes.Atual.Nascimento;
-  edtPeso.Text := FPacientes.Atual.Peso;
-  edtAltura.Text := FPacientes.Atual.Altura;
-  edtIMC.Text := FPacientes.Atual.MediaIMC.ToString;
-  rgpSexo.ItemIndex := Ord(FPacientes.Atual.Sexo);
-  Calcular;
+procedure TfrmDadosCalculoIMC.btnNovoClick(Sender: TObject);
+begin
+  if VerificarEditsPreenchidos then
+  begin
+    if Application.MessageBox('Ainda existem dados preenchidos, tem certeza que quer um novo cliente?', 'Atenção',
+      MB_YESNO) = 2 then
+    begin
+      Exit;
+    end;
+  end;
+
+
 end;
 
 procedure TfrmDadosCalculoIMC.Calcular;
@@ -128,21 +143,13 @@ begin
 end;
 
 procedure TfrmDadosCalculoIMC.CalcularIMC;
+var
+  lPacientes: TPacientesSingleton;
 begin
-  FPacientes.Atual.VerificarIMC(FPacientes.Atual.Sexo);
-  edtIMC.Text := FormatFloat('#,##0.00', FPacientes.Atual.MediaIMC);
-end;
+  lPacientes := TPacientesSingleton.ObterInstancia;
+  lPacientes.Atual.VerificarIMC(lPacientes.Atual.Sexo);
 
-constructor TfrmDadosCalculoIMC.Create(AOwner: TComponent);
-begin
-  inherited;
-  FPacientes := TPacientes.Create;
-end;
-
-destructor TfrmDadosCalculoIMC.Destroy;
-begin
-  FreeAndNil(FPacientes);
-  inherited;
+  edtIMC.Text := FormatFloat('#,##0.00', lPacientes.Atual.MediaIMC);
 end;
 
 procedure TfrmDadosCalculoIMC.edtAlturaChange(Sender: TObject);
@@ -157,9 +164,13 @@ begin
 end;
 
 procedure TfrmDadosCalculoIMC.edtAlturaExit(Sender: TObject);
+var
+  lPacientes: TPacientesSingleton;
 begin
+  lPacientes := TPacientesSingleton.ObterInstancia;
+
   try
-    FPacientes.Atual.Altura := edtAltura.Text;
+    lPacientes.Atual.Altura := edtAltura.Text;
   except
     on E: Exception do
     begin
@@ -174,10 +185,14 @@ begin
 end;
 
 procedure TfrmDadosCalculoIMC.edtNascimentoExit(Sender: TObject);
+var
+  lPacientes: TPacientesSingleton;
 begin
+  lPacientes := TPacientesSingleton.ObterInstancia;
+
   try
-    FPacientes.Atual.Nascimento := THelpers.FormatarData(edtNascimento.Text);
-    lblAnoMesesSemanasDias.Caption := FPacientes.Atual.Idade;
+    lPacientes.Atual.Nascimento := THelpers.FormatarData(edtNascimento.Text);
+    lblAnoMesesSemanasDias.Caption := lPacientes.Atual.Idade;
   except
     on E: Exception do
     begin
@@ -192,8 +207,11 @@ begin
 end;
 
 procedure TfrmDadosCalculoIMC.edtNomeExit(Sender: TObject);
+var
+  lPacientes: TPacientesSingleton;
 begin
-  FPacientes.Atual.Nome := THelpers.DigitarLetras(edtNome.Text);
+  lPacientes := TPacientesSingleton.ObterInstancia;
+  lPacientes.Atual.Nome := THelpers.DigitarLetras(edtNome.Text);
 end;
 
 procedure TfrmDadosCalculoIMC.edtPesoChange(Sender: TObject);
@@ -208,9 +226,13 @@ begin
 end;
 
 procedure TfrmDadosCalculoIMC.edtPesoExit(Sender: TObject);
+var
+  lPacientes: TPacientesSingleton;
 begin
+  lPacientes := TPacientesSingleton.ObterInstancia;
+
   try
-    FPacientes.Atual.Peso := edtPeso.Text;
+    lPacientes.Atual.Peso := edtPeso.Text;
   except
     on E: Exception do
     begin
@@ -223,12 +245,16 @@ procedure TfrmDadosCalculoIMC.Limpar;
 begin
   LimparDados;
   sbtnLimpar.Enabled := False;
-  Notificar; // Ver isso aqui
+  Notificar;
 end;
 
 procedure TfrmDadosCalculoIMC.LimparDados;
+var
+  lPacientes: TPacientesSingleton;
 begin
-  FPacientes.Atual.Limpar;
+  lPacientes := TPacientesSingleton.ObterInstancia;
+
+  lPacientes.Atual.Limpar;
   edtNome.Clear;
   edtNascimento.Clear;
   edtPeso.Clear;
@@ -241,34 +267,38 @@ end;
 procedure TfrmDadosCalculoIMC.Notificar;
 var
   lObserver: IObserver;
+  lPacientes: TPacientesSingleton;
 begin
-  for lObserver in FPacientes.Observers do
+  lPacientes := TPacientesSingleton.ObterInstancia;
+
+  for lObserver in lPacientes.Observers do
   begin
-    lObserver.Atualizar(FPacientes.Atual.StatusIMC);
+    lObserver.Atualizar(lPacientes.Atual.StatusIMC);
   end;
 end;
 
-procedure TfrmDadosCalculoIMC.RemoverObserver(pObserver: IObserver);
-begin
-  FPacientes.RemoverObserver(pObserver);
-end;
-
 procedure TfrmDadosCalculoIMC.rgpSexoClick(Sender: TObject);
+var
+  lPacientes: TPacientesSingleton;
 begin
-  FPacientes.Atual.Sexo := TSexoPaciente(rgpSexo.ItemIndex);
+  lPacientes := TPacientesSingleton.ObterInstancia;
+  lPacientes.Atual.Sexo := TSexoPaciente(rgpSexo.ItemIndex);
 end;
 
 procedure TfrmDadosCalculoIMC.rgpSexoExit(Sender: TObject);
+var
+  lPacientes: TPacientesSingleton;
 begin
-  FPacientes.Atual.Sexo := TSexoPaciente(rgpSexo.ItemIndex);
+  lPacientes := TPacientesSingleton.ObterInstancia;
+  lPacientes.Atual.Sexo := TSexoPaciente(rgpSexo.ItemIndex);
 end;
 
 procedure TfrmDadosCalculoIMC.SalvarHistorico;
 var
-  lDataHoraAtual: string;
+  lPacientes: TPacientesSingleton;
 begin
-  lDataHoraAtual := FormatDateTime('dd/mm/yyyy hh:nn:ss:zzz', Now);
-  FPacientes.Historico.Adicionar(lDataHoraAtual, FPacientes.Salvar);
+  lPacientes := TPacientesSingleton.ObterInstancia;
+  lPacientes.Historico.Adicionar(lPacientes.Atual.ID, lPacientes.Salvar);
 end;
 
 procedure TfrmDadosCalculoIMC.sbtnCalcularClick(Sender: TObject);
@@ -302,6 +332,28 @@ begin
   if (pE.ClassType = ESexoNaoInformado) then
   begin
     rgpSexo.SetFocus
+  end;
+end;
+
+function TfrmDadosCalculoIMC.VerificarEditsPreenchidos: Boolean;
+var
+  lTextoNoEdit: string;
+begin
+  Result := False;
+
+  for var I := 0 to Pred(Self.ComponentCount) do
+  begin
+    if not (Self.Components[I] is TCustomEdit) then
+    begin
+      Continue;
+    end;
+
+    lTextoNoEdit := TCustomEdit(Self.Components[I]).Text;
+
+    if lTextoNoEdit.Trim = EmptyStr then
+    begin
+      Exit(True);
+    end;
   end;
 end;
 

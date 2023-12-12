@@ -10,23 +10,22 @@ type
   { Memento }
   THistorico = class
   private
-    FLista: TObjectDictionary<string, TRestaurar>;
+    FLista: TObjectDictionary<Integer, TRestaurar>;
   public
-    property Lista: TObjectDictionary<string, TRestaurar> read FLista write FLista;
+    property Lista: TObjectDictionary<Integer, TRestaurar> read FLista write FLista;
     constructor Create;
     destructor Destroy; override;
-    procedure Adicionar(const pDataHora: string; pRestaurar: TRestaurar);
-    function Recuperar(const pDataHora: string): TRestaurar;
+    procedure Adicionar(const pIDPaciente: Integer; pRestaurar: TRestaurar);
+    function Recuperar(const pIDPaciente: Integer): TRestaurar;
   end;
 
 implementation
-
 
 { THistorico }
 
 constructor THistorico.Create;
 begin
-  FLista := TObjectDictionary<string, TRestaurar>.Create([doOwnsValues]);
+  FLista := TObjectDictionary<Integer, TRestaurar>.Create([doOwnsValues]);
 end;
 
 destructor THistorico.Destroy;
@@ -35,14 +34,26 @@ begin
   inherited;
 end;
 
-function THistorico.Recuperar(const pDataHora: string): TRestaurar;
+function THistorico.Recuperar(const pIDPaciente: Integer): TRestaurar;
 begin
-  Result := Lista.Items[pDataHora];
+  Result := Lista.Items[pIDPaciente];
 end;
 
-procedure THistorico.Adicionar(const pDataHora: string; pRestaurar: TRestaurar);
+procedure THistorico.Adicionar(const pIDPaciente: Integer; pRestaurar: TRestaurar);
+var
+  lPaciente: TRestaurar;
 begin
-  Lista.Add(pDataHora, pRestaurar);
+  try
+    if not Lista.TryGetValue(pIDPaciente, lPaciente) then
+    begin
+      Lista.Add(pIDPaciente, pRestaurar);
+      Exit;
+    end;
+
+    Lista[pIDPaciente] := pRestaurar;
+  finally
+    FreeAndNil(lPaciente);
+  end;
 end;
 
 end.

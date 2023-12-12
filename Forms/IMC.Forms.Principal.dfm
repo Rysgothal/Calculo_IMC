@@ -68,13 +68,16 @@ object frmPrincipal: TfrmPrincipal
       Top = 2
       ExplicitTop = 2
       inherited sbtnLimpar: TSpeedButton
+        Images = Imagens
         OnClick = frmDadosPacientesbtnLimparClick
       end
       inherited btnHistorico: TSpeedButton
+        Images = Imagens
         OnClick = frmDadosPacientebtnHistoricoClick
       end
       inherited gbxDadosCalculo: TGroupBox
         inherited sbtnCalcular: TSpeedButton
+          Images = Imagens
           OnClick = frmDadosPacientesbtnCalcularClick
         end
       end

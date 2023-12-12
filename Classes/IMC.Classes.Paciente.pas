@@ -20,16 +20,17 @@ type
   { Singleton }
   { Memento   }
   { Observer  }
-  TPacientes = class
+  TPacientesSingleton = class
   private
     FAtual: TPaciente;
     FHistorico: THistorico;
     FObservers: TList<IObserver>;
+    constructor Create;
   public
     property Atual: TPaciente read FAtual write FAtual;
     property Historico: THistorico read FHistorico write FHistorico;
     property Observers: TList<IObserver> read FObservers;
-    constructor Create;
+    class function ObterInstancia: TPacientesSingleton;
     destructor Destroy; override;
 
     // Memento
@@ -40,6 +41,9 @@ type
     procedure AdicionarObserver(pObserver: IObserver);
     procedure RemoverObserver(pObserver: IObserver);
   end;
+
+var
+  FPacientes: TPacientesSingleton;
 
 implementation
 
@@ -72,19 +76,19 @@ end;
 
 { TPacientes }
 
-procedure TPacientes.AdicionarObserver(pObserver: IObserver);
+procedure TPacientesSingleton.AdicionarObserver(pObserver: IObserver);
 begin
   FObservers.Add(pObserver);
 end;
 
-constructor TPacientes.Create;
+constructor TPacientesSingleton.Create;
 begin
   FHistorico := THistorico.Create;
   FAtual := TPaciente.Create;
   FObservers := TList<IObserver>.Create;
 end;
 
-destructor TPacientes.Destroy;
+destructor TPacientesSingleton.Destroy;
 begin
   FreeAndNil(FAtual);
   FreeAndNil(FHistorico);
@@ -92,12 +96,22 @@ begin
   inherited;
 end;
 
-procedure TPacientes.RemoverObserver(pObserver: IObserver);
+class function TPacientesSingleton.ObterInstancia: TPacientesSingleton;
+begin
+  if not Assigned(FPacientes) then
+  begin
+    FPacientes := TPacientesSingleton.Create;
+  end;
+
+  Result := FPacientes;
+end;
+
+procedure TPacientesSingleton.RemoverObserver(pObserver: IObserver);
 begin
   FObservers.Delete(FObservers.IndexOf(pObserver));
 end;
 
-procedure TPacientes.Restaurar(pRestaurar: TRestaurar);
+procedure TPacientesSingleton.Restaurar(pRestaurar: TRestaurar);
 begin
   Atual.Nome := pRestaurar.Nome;
   Atual.Nascimento := pRestaurar.Nascimento;
@@ -107,9 +121,10 @@ begin
   Atual.StatusIMC := pRestaurar.StatusIMC;
   Atual.MediaIMC := pRestaurar.MediaIMC;
   Atual.Sexo := pRestaurar.Sexo;
+  Atual.ID := pRestaurar.ID;
 end;
 
-function TPacientes.Salvar: TRestaurar;
+function TPacientesSingleton.Salvar: TRestaurar;
 begin
   Result := TRestaurar.Create;
 
@@ -121,6 +136,12 @@ begin
   Result.StatusIMC := Atual.StatusIMC;
   Result.MediaIMC := Atual.MediaIMC;
   Result.Sexo := Atual.Sexo;
+  Result.ID := Atual.ID;
 end;
+
+initialization
+
+finalization
+  FreeAndNil(FPacientes);
 
 end.
