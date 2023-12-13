@@ -13,6 +13,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure lbxHistoricoAlteracoesKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure lbxHistoricoAlteracoesDblClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
     procedure SelecionarItem;
@@ -46,6 +47,14 @@ begin
   end;
 
   lbxHistoricoAlteracoes.ItemIndex := 0;
+end;
+
+procedure TfrmHistorico.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = VK_ESCAPE then
+  begin
+    ModalResult := mrCancel;
+  end;
 end;
 
 procedure TfrmHistorico.lbxHistoricoAlteracoesDblClick(Sender: TObject);

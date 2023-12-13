@@ -12,8 +12,10 @@ object frmHistorico: TfrmHistorico
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  KeyPreview = True
   Position = poMainFormCenter
   OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
   TextHeight = 15
   object lblHistoricoAlteracoes: TLabel
     Left = 10
