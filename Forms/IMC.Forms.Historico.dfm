@@ -4,8 +4,8 @@ object frmHistorico: TfrmHistorico
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Hist'#243'rico'
-  ClientHeight = 328
-  ClientWidth = 335
+  ClientHeight = 327
+  ClientWidth = 331
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,7 +14,6 @@ object frmHistorico: TfrmHistorico
   Font.Style = []
   Position = poMainFormCenter
   OnCreate = FormCreate
-  PixelsPerInch = 96
   TextHeight = 15
   object lblHistoricoAlteracoes: TLabel
     Left = 10
@@ -36,6 +35,7 @@ object frmHistorico: TfrmHistorico
     Height = 296
     ItemHeight = 15
     TabOrder = 0
-    OnClick = lbxHistoricoAlteracoesClick
+    OnDblClick = lbxHistoricoAlteracoesDblClick
+    OnKeyDown = lbxHistoricoAlteracoesKeyDown
   end
 end

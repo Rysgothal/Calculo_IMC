@@ -13,7 +13,6 @@ object frmPrincipal: TfrmPrincipal
   Font.Name = 'Segoe UI'
   Font.Style = []
   OnCreate = FormCreate
-  PixelsPerInch = 96
   TextHeight = 15
   object sttsbarInformacao: TStatusBar
     Left = 0
@@ -39,6 +38,8 @@ object frmPrincipal: TfrmPrincipal
         Width = 410
       end>
     UseSystemFont = False
+    ExplicitTop = 461
+    ExplicitWidth = 785
   end
   inline frmResultadoIMC: TfrmResultadoIMC
     Left = 0
@@ -46,9 +47,9 @@ object frmPrincipal: TfrmPrincipal
     Width = 789
     Height = 140
     Align = alBottom
-    TabOrder = 1
-    ExplicitTop = 322
-    ExplicitWidth = 789
+    TabOrder = 2
+    ExplicitTop = 321
+    ExplicitWidth = 785
     ExplicitHeight = 140
     inherited gbxResultado: TGroupBox
       Top = -1
@@ -61,8 +62,8 @@ object frmPrincipal: TfrmPrincipal
     Width = 789
     Height = 316
     Align = alTop
-    TabOrder = 2
-    ExplicitWidth = 789
+    TabOrder = 0
+    ExplicitWidth = 785
     ExplicitHeight = 316
     inherited gbxDadosPaciente: TGroupBox
       Top = 2
@@ -74,6 +75,9 @@ object frmPrincipal: TfrmPrincipal
       inherited btnHistorico: TSpeedButton
         Images = Imagens
         OnClick = frmDadosPacientebtnHistoricoClick
+      end
+      inherited rgpSexo: TRadioGroup
+        TabStop = True
       end
       inherited gbxDadosCalculo: TGroupBox
         inherited sbtnCalcular: TSpeedButton

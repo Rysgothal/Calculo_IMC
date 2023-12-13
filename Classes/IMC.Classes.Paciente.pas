@@ -121,7 +121,6 @@ begin
   Atual.StatusIMC := pRestaurar.StatusIMC;
   Atual.MediaIMC := pRestaurar.MediaIMC;
   Atual.Sexo := pRestaurar.Sexo;
-  Atual.ID := pRestaurar.ID;
 end;
 
 function TPacientesSingleton.Salvar: TRestaurar;
@@ -136,7 +135,6 @@ begin
   Result.StatusIMC := Atual.StatusIMC;
   Result.MediaIMC := Atual.MediaIMC;
   Result.Sexo := Atual.Sexo;
-  Result.ID := Atual.ID;
 end;
 
 initialization

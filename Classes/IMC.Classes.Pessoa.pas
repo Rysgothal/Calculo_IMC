@@ -17,7 +17,6 @@ type
     FMediaIMC: Single;
     FIdade: string;
     FSexo: TSexoPaciente;
-    FID: Integer;
     procedure SetAltura(const pValor: string);
     procedure SetNascimento(const pValor: string);
     procedure SetPeso(const pValor: string);
@@ -32,13 +31,9 @@ type
     property StatusIMC: TStatusIMC read FStatusIMC write FStatusIMC;
     property MediaIMC: Single read FMediaIMC write FMediaIMC;
     property Sexo: TSexoPaciente read FSexo write FSexo;
-    property ID: Integer read FID write FID;
     constructor Create;
     procedure Limpar;
   end;
-
-var
-  ID_GERADOR_PACIENTE: Integer = 0;
 
 implementation
 
@@ -109,9 +104,6 @@ begin
   FSexo := spNaoInformado;
   FMediaIMC := 0;
   FIdade := EmptyStr;
-
-  Inc(ID_GERADOR_PACIENTE);
-  FID := ID_GERADOR_PACIENTE;
 end;
 
 procedure TPessoa.Limpar;

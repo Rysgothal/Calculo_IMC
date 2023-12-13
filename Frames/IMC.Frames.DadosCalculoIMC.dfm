@@ -4,7 +4,6 @@ object frmDadosCalculoIMC: TfrmDadosCalculoIMC
   Width = 783
   Height = 318
   TabOrder = 0
-  PixelsPerInch = 96
   object gbxDadosPaciente: TGroupBox
     Left = 3
     Top = 3
@@ -68,7 +67,7 @@ object frmDadosCalculoIMC: TfrmDadosCalculoIMC
       Caption = 'anos; meses; semanas; dias'
     end
     object sbtnLimpar: TSpeedButton
-      Left = 622
+      Left = 693
       Top = 280
       Width = 69
       Height = 30
@@ -107,7 +106,7 @@ object frmDadosCalculoIMC: TfrmDadosCalculoIMC
       Layout = tlCenter
     end
     object btnHistorico: TSpeedButton
-      Left = 530
+      Left = 601
       Top = 280
       Width = 87
       Height = 30
@@ -116,17 +115,6 @@ object frmDadosCalculoIMC: TfrmDadosCalculoIMC
       ImageIndex = 4
       Enabled = False
       OnClick = btnHistoricoClick
-    end
-    object btnNovo: TSpeedButton
-      Left = 696
-      Top = 280
-      Width = 69
-      Height = 30
-      DisabledImageIndex = 3
-      Caption = '&Novo'
-      ImageIndex = 2
-      Enabled = False
-      OnClick = btnNovoClick
     end
     object rgpSexo: TRadioGroup
       Left = 83
