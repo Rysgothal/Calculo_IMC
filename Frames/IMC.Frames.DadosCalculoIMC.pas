@@ -52,6 +52,8 @@ type
     procedure LimparDados;
     procedure Limpar;
     procedure TratarExcessoes(pE: Exception);
+    procedure AbrirHistorico;
+    procedure PreencherDadosHistorico(lPacientes: TPacientesSingleton);
   public
     { Public declarations }
   end;
@@ -66,63 +68,29 @@ uses
 { TfrmDadosCalculoIMC }
 
 procedure TfrmDadosCalculoIMC.btnHistoricoClick(Sender: TObject);
-var
-  lPacientes: TPacientesSingleton;
 begin
-  lPacientes := TPacientesSingleton.ObterInstancia;
-
-  if not Assigned(frmHistorico) then
-  begin
-    frmHistorico := TfrmHistorico.Create(Self);
-  end;
-
-  try
-    frmHistorico.ShowModal;
-
-    if frmHistorico.ModalResult = mrCancel then
-    begin
-      Exit;
-    end;
-
-    edtNome.Text := lPacientes.Atual.Nome;
-    edtNascimento.Text := lPacientes.Atual.Nascimento;
-    edtPeso.Text := lPacientes.Atual.Peso;
-    edtAltura.Text := lPacientes.Atual.Altura;
-    edtIMC.Text := lPacientes.Atual.MediaIMC.ToString;
-    rgpSexo.ItemIndex := Ord(lPacientes.Atual.Sexo);
-    Calcular;
-  finally
-    FreeAndNil(frmHistorico);
-  end;
+  AbrirHistorico;
 end;
 
 procedure TfrmDadosCalculoIMC.Calcular;
 begin
-  try
-    if THelpers.VerificarCampoVazio(edtNome) then
-    begin
-      Application.MessageBox('O nome não foi preenchido, verifique', 'Atenção', MB_OK + MB_ICONINFORMATION);
-      THelpers.Focar(edtNome);
-      Exit;
-    end;
-
-    if THelpers.VerificarCampoVazio(edtNascimento) then
-    begin
-      Application.MessageBox('A data de nascimento não foi preenchida, verifique', 'Atenção', MB_OK + MB_ICONINFORMATION);
-      THelpers.Focar(edtNascimento);
-      Exit;
-    end;
-
-    CalcularIMC;
-    btnHistorico.Enabled := True;
-    sbtnLimpar.Enabled := True;
-    Notificar;
-  except
-    on E: Exception do
-    begin
-      TratarExcessoes(E);
-    end;
+  if THelpers.VerificarCampoVazio(edtNome) then
+  begin
+    Application.MessageBox('O nome não foi preenchido, verifique.', 'Atenção', MB_OK + MB_ICONINFORMATION);
+    THelpers.Focar(edtNome);
+    Exit;
   end;
+
+  if THelpers.VerificarCampoVazio(edtNascimento) then
+  begin
+    Application.MessageBox('A data de nascimento não foi preenchida, verifique.', 'Atenção', MB_OK + MB_ICONINFORMATION);
+    THelpers.Focar(edtNascimento);
+    Exit;
+  end;
+
+  CalcularIMC;
+  sbtnLimpar.Enabled := True;
+  Notificar;
 end;
 
 procedure TfrmDadosCalculoIMC.CalcularIMC;
@@ -228,6 +196,7 @@ procedure TfrmDadosCalculoIMC.Limpar;
 begin
   LimparDados;
   sbtnLimpar.Enabled := False;
+  THelpers.Focar(edtNome);
   Notificar;
 end;
 
@@ -281,16 +250,30 @@ var
   lPacientes: TPacientesSingleton;
   lDataHora: string;
 begin
-  lDataHora := FormatDateTime('dd/mm/yyyy hh:mm:ss', Now);
-
   lPacientes := TPacientesSingleton.ObterInstancia;
+
+  if (GetLastError <> 0) or THelpers.VerificarCampoVazio(lPacientes.Atual.Nome) or
+    THelpers.VerificarCampoVazio(lPacientes.Atual.Nascimento) then
+  begin
+    Exit;
+  end;
+
+  lDataHora := FormatDateTime('dd/mm/yyyy hh:mm:ss', Now);
   lPacientes.Historico.Adicionar(lDataHora, lPacientes.Salvar);
+  btnHistorico.Enabled := True;
 end;
 
 procedure TfrmDadosCalculoIMC.sbtnCalcularClick(Sender: TObject);
 begin
-  Calcular;
-  SalvarHistorico;
+  try
+    Calcular;
+    SalvarHistorico;
+  except
+    on E: Exception do
+    begin
+      TratarExcessoes(E);
+    end;
+  end;
 end;
 
 procedure TfrmDadosCalculoIMC.sbtnLimparClick(Sender: TObject);
@@ -299,26 +282,68 @@ begin
 end;
 
 procedure TfrmDadosCalculoIMC.TratarExcessoes(pE: Exception);
+var
+  lErroClasse: TClass;
+  lErroAltura, lErroPeso: Boolean;
 begin
-  Application.MessageBox(PChar('Houve uma inconsistencia, verifique:' + sLineBreak + pE.Message), 'Atenção', MB_OK +
-    MB_ICONINFORMATION);
+  Application.MessageBox(PChar(pE.Message), 'Atenção', MB_OK + MB_ICONINFORMATION);
 
-  if (pE.ClassType = EPesoNaoInformado) or (pE.ClassType = EPesoIncorreto) then
+  lErroClasse := pE.ClassType;
+  lErroAltura := (lErroClasse = EAlturaNaoInformada) or (lErroClasse = EAlturaIncorreta) or (lErroClasse = EAlturaZerada);
+  lErroPeso := (lErroClasse = EPesoNaoInformado) or (lErroClasse = EPesoIncorreto) or (lErroClasse = EPesoZerado);
+
+  if lErroPeso then
   begin
     THelpers.Focar(edtPeso);
   end else
-  if (pE.ClassType = EAlturaNaoInformada) or (pE.ClassType = EAlturaIncorreta) then
+  if lErroAltura then
   begin
     THelpers.Focar(edtAltura);
   end else
-  if (pE.ClassType = ENascimentoNaoInformado) then
+  if (lErroClasse = ENascimentoNaoInformado) or (lErroClasse = EDataIncorreta) then
   begin
     THelpers.Focar(edtNascimento);
   end else
-  if (pE.ClassType = ESexoNaoInformado) then
+  if (lErroClasse = ESexoNaoInformado) then
   begin
-    rgpSexo.SetFocus
+    THelpers.Focar(rgpSexo);
   end;
+end;
+
+procedure TfrmDadosCalculoIMC.AbrirHistorico;
+var
+  lPacientes: TPacientesSingleton;
+begin
+  lPacientes := TPacientesSingleton.ObterInstancia;
+
+  if not Assigned(frmHistorico) then
+  begin
+    frmHistorico := TfrmHistorico.Create(Self);
+  end;
+
+  try
+    frmHistorico.ShowModal;
+
+    if frmHistorico.ModalResult = mrCancel then
+    begin
+      Exit;
+    end;
+
+    PreencherDadosHistorico(lPacientes);
+    Calcular;
+  finally
+    FreeAndNil(frmHistorico);
+  end;
+end;
+
+procedure TfrmDadosCalculoIMC.PreencherDadosHistorico(lPacientes: TPacientesSingleton);
+begin
+  edtNome.Text := lPacientes.Atual.Nome;
+  edtNascimento.Text := lPacientes.Atual.Nascimento;
+  edtPeso.Text := lPacientes.Atual.Peso;
+  edtAltura.Text := lPacientes.Atual.Altura;
+  edtIMC.Text := lPacientes.Atual.MediaIMC.ToString;
+  rgpSexo.ItemIndex := Ord(lPacientes.Atual.Sexo);
 end;
 
 end.

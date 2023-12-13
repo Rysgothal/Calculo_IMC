@@ -12,7 +12,9 @@ object frmPrincipal: TfrmPrincipal
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  Position = poScreenCenter
   OnCreate = FormCreate
+  PixelsPerInch = 96
   TextHeight = 15
   object sttsbarInformacao: TStatusBar
     Left = 0
@@ -38,8 +40,6 @@ object frmPrincipal: TfrmPrincipal
         Width = 410
       end>
     UseSystemFont = False
-    ExplicitTop = 461
-    ExplicitWidth = 785
   end
   inline frmResultadoIMC: TfrmResultadoIMC
     Left = 0
@@ -48,8 +48,8 @@ object frmPrincipal: TfrmPrincipal
     Height = 140
     Align = alBottom
     TabOrder = 2
-    ExplicitTop = 321
-    ExplicitWidth = 785
+    ExplicitTop = 322
+    ExplicitWidth = 789
     ExplicitHeight = 140
     inherited gbxResultado: TGroupBox
       Top = -1
@@ -63,7 +63,7 @@ object frmPrincipal: TfrmPrincipal
     Height = 316
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 785
+    ExplicitWidth = 789
     ExplicitHeight = 316
     inherited gbxDadosPaciente: TGroupBox
       Top = 2

@@ -49,6 +49,7 @@ var
 begin
   if not TryStrToDate(Nascimento, lDataNascimento) or (YearsBetween(lDataNascimento, Date) > 110) then
   begin
+    FNascimento := EmptyStr;
     raise EDataIncorreta.Create('Data incoerente com os dias atuais');
   end;
 
@@ -129,7 +130,12 @@ begin
 
   if not TryStrToFloat(pValor, lAltura) then
   begin
-    raise EAlturaIncorreta.Create('A altura informada não é válida');
+    raise EAlturaIncorreta.Create('A altura informada não é válida.');
+  end;
+
+  if lAltura = 0 then
+  begin
+    raise EAlturaZerada.Create('A altura informada não pode ser zero.');
   end;
 
   FAltura := pValor;
@@ -158,7 +164,12 @@ begin
 
   if not TryStrToFloat(pValor, lPeso) then
   begin
-    raise EPesoIncorreto.Create('O peso informado não é válido');
+    raise EPesoIncorreto.Create('O peso informado não é válido.');
+  end;
+
+  if lPeso = 0 then
+  begin
+    raise EPesoZerado.Create('O peso informado não pode ser zero.');
   end;
 
   FPeso := pValor;

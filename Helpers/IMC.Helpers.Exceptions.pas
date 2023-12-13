@@ -8,9 +8,11 @@ uses
 type
   EPesoNaoInformado = class(Exception);
   EPesoIncorreto = class(Exception);
+  EPesoZerado = class(Exception);
 
   EAlturaNaoInformada = class(Exception);
   EAlturaIncorreta = class(Exception);
+  EAlturaZerada = class(Exception);
 
   ESexoNaoInformado = class(Exception);
 

@@ -52,7 +52,7 @@ begin
 
     Lista[pDataHora] := pRestaurar;
   finally
-    FreeAndNil(lPaciente);
+    lPaciente := nil;
   end;
 end;
 

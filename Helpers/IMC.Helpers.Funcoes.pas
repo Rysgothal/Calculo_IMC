@@ -3,7 +3,7 @@ unit IMC.Helpers.Funcoes;
 interface
 
 uses
-  Vcl.StdCtrls, System.SysUtils;
+  Vcl.StdCtrls, System.SysUtils, Vcl.Controls;
 
 type
   TPositions = array of Integer;
@@ -23,7 +23,7 @@ type
     class procedure InsertChar(var pValor: string; const pPos: Integer; const pChar: Char); overload;
     class procedure InsertChars(var pValor: string; const pPos: TPositions; const pChars: TChars); overload;
     class procedure InsertChars(var pValor: string; const pPos: TPositions; const pChar: Char); overload;
-    class procedure Focar(const pEdit: TCustomEdit);
+    class procedure Focar(const pComponente: TWinControl);
   end;
 
 implementation
@@ -43,11 +43,11 @@ begin
   Result := ValidarDigitado(pValor, ['A'..'Z', 'a'..'z', #32]); // #32 SPACE
 end;
 
-class procedure THelpers.Focar(const pEdit: TCustomEdit);
+class procedure THelpers.Focar(const pComponente: TWinControl);
 begin
-  if pEdit.CanFocus then
+  if pComponente.CanFocus then
   begin
-    pEdit.SetFocus;
+    pComponente.SetFocus;
   end;
 end;
 

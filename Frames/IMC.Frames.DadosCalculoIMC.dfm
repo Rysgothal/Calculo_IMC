@@ -4,6 +4,7 @@ object frmDadosCalculoIMC: TfrmDadosCalculoIMC
   Width = 783
   Height = 318
   TabOrder = 0
+  PixelsPerInch = 96
   object gbxDadosPaciente: TGroupBox
     Left = 3
     Top = 3

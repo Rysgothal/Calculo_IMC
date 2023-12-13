@@ -55,20 +55,25 @@ uses
 
 procedure TPaciente.VerificarIMC(pSexo: TSexoPaciente);
 begin
+  if (Nascimento = EmptyStr) or (Nome = EmptyStr) then
+  begin
+    Exit;
+  end;
+
   case pSexo of
     spMasculino: FIMC := TPacienteMasculino.Create;
     spFeminino: FIMC := TPacienteFeminino.Create;
-    else raise ESexoNaoInformado.Create('O sexo não foi informado');
+    else raise ESexoNaoInformado.Create('O sexo não foi informado.');
   end;
 
   if THelpers.VerificarCampoVazio(Peso) then
   begin
-    raise EPesoNaoInformado.Create('O peso não foi informado');
+    raise EPesoNaoInformado.Create('O peso não foi informado.');
   end;
 
   if THelpers.VerificarCampoVazio(Altura) then
   begin
-    raise EAlturaNaoInformada.Create('A altura não foi informada');
+    raise EAlturaNaoInformada.Create('A altura não foi informada.');
   end;
 
   StatusIMC := FIMC.VerificarIMC(MediaIMC);
