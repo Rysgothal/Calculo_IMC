@@ -47,11 +47,8 @@ var
   lDataNascimento: TDateTime;
   lAnos, lMeses, lSemanas, lDias: Integer;
 begin
-  if not TryStrToDate(Nascimento, lDataNascimento) or (YearsBetween(lDataNascimento, Date) > 110) then
-  begin
-    FNascimento := EmptyStr;
-    raise EDataIncorreta.Create('Data incoerente com os dias atuais');
-  end;
+  Idade := EmptyStr;
+  lDataNascimento := StrToDate(FNascimento);
 
   lAnos    := YearsBetween(lDataNascimento, Date);
   lMeses   := MonthsBetween(IncYear(lDataNascimento, lAnos), Date);
@@ -143,13 +140,27 @@ begin
 end;
 
 procedure TPessoa.SetNascimento(const pValor: string);
+var
+  lDataNascimento: TDateTime;
 begin
   FNascimento := pValor;
 
-  case THelpers.VerificarCampoVazio(pValor) of
-    True: FIdade := 'anos; meses; semanas; dias;';
-    else CalcularIdade;
+  if THelpers.VerificarCampoVazio(pValor) then
+  begin
+    FNascimento := EmptyStr;
+    FIdade := 'anos; meses; semanas; dias;';
+    Exit;
   end;
+
+  if not TryStrToDate(Nascimento, lDataNascimento) or (YearsBetween(lDataNascimento, Date) > 110) or
+    (lDataNascimento > Now) then
+  begin
+    FNascimento := EmptyStr;
+    FIdade := 'anos; meses; semanas; dias;';
+    raise EDataIncorreta.Create('Data incoerente com os dias atuais');
+  end;
+
+  CalcularIdade;
 end;
 
 procedure TPessoa.SetPeso(const pValor: string);
