@@ -22,6 +22,10 @@ type
     procedure SetPeso(const pValor: string);
     procedure CalcularIdade;
     procedure CalcularMediaIMC;
+    function CalcularAnos(lDataNascimento: TDate): Integer;
+    function CalcularMeses(lDataNascimento: TDate; lAnos: Integer): Integer;
+    function CalcularSemanas(lDataNascimento: TDate; lAnos: Integer; lMeses: Integer): Integer;
+    function CalcularDias(lDataNascimento: TDate; lAnos: Integer; lMeses: Integer; lSemanas: Integer): Integer;
   public
     property Nome: string read FNome write FNome;
     property Nascimento: string read FNascimento write SetNascimento;
@@ -38,22 +42,22 @@ type
 implementation
 
 uses
-  IMC.Helpers.Funcoes, System.SysUtils, System.DateUtils, System.Math;
+  IMC.Helpers.Funcoes, System.DateUtils, System.Math, System.SysUtils;
 
 { TPessoa }
 
 procedure TPessoa.CalcularIdade;
 var
-  lDataNascimento: TDateTime;
+  lDataNascimento: TDate;
   lAnos, lMeses, lSemanas, lDias: Integer;
 begin
   Idade := EmptyStr;
   lDataNascimento := StrToDate(FNascimento);
 
-  lAnos    := YearsBetween(lDataNascimento, Date);
-  lMeses   := MonthsBetween(IncYear(lDataNascimento, lAnos), Date);
-  lSemanas := WeeksBetween(IncMonth(IncYear(lDataNascimento, lAnos), lMeses), Date);
-  lDias    := DaysBetween(IncWeek(IncMonth(IncYear(lDataNascimento, lAnos), lMeses), lSemanas), Date);
+  lAnos := CalcularAnos(lDataNascimento);
+  lMeses := CalcularMeses(lDataNascimento, lAnos);
+  lSemanas := CalcularSemanas(lDataNascimento, lAnos, lMeses);
+  lDias := CalcularDias(lDataNascimento, lAnos, lMeses, lSemanas);
 
   case lAnos of
     0: ;
@@ -79,7 +83,10 @@ begin
     else Idade := Idade + lDias.ToString + ' Dias. ';
   end;
 
-  Idade := Copy(Idade, 1, Length(Idade) - 2) + '.';
+  case THelpers.VerificarCampoVazio(Idade) of
+    True: Idade := 'Recém-Nascido';
+    else  Idade := Copy(Idade, 1, Length(Idade) - 2) + '.';
+  end;
 end;
 
 procedure TPessoa.CalcularMediaIMC;
@@ -113,6 +120,26 @@ begin
   FStatusIMC := siNaoCalculado;
   FMediaIMC := 0;
   FIdade := 'anos; meses; semanas; dias;';
+end;
+
+function TPessoa.CalcularDias(lDataNascimento: TDate; lAnos: Integer; lMeses: Integer; lSemanas: Integer): Integer;
+begin
+  Result := DaysBetween(IncWeek(IncMonth(IncYear(lDataNascimento, lAnos), lMeses), lSemanas), Now);
+end;
+
+function TPessoa.CalcularSemanas(lDataNascimento: TDate; lAnos: Integer; lMeses: Integer): Integer;
+begin
+  Result := WeeksBetween(IncMonth(IncYear(lDataNascimento, lAnos), lMeses), Now);
+end;
+
+function TPessoa.CalcularMeses(lDataNascimento: TDate; lAnos: Integer): Integer;
+begin
+  Result := MonthsBetween(IncYear(lDataNascimento, lAnos), Now);
+end;
+
+function TPessoa.CalcularAnos(lDataNascimento: TDate): Integer;
+begin
+  Result := YearsBetween(lDataNascimento, Now);
 end;
 
 procedure TPessoa.SetAltura(const pValor: string);
@@ -159,7 +186,7 @@ begin
     raise EDataIncorreta.Create('A data inserida não está correta.');
   end;
 
-  if (YearsBetween(lDataNascimento, Date) > 110) or (lDataNascimento >= Now) then
+  if (YearsBetween(lDataNascimento, Date) > 150) or (lDataNascimento > Now) then
   begin
     FNascimento := EmptyStr;
     FIdade := 'anos; meses; semanas; dias;';
