@@ -152,12 +152,18 @@ begin
     Exit;
   end;
 
-  if not TryStrToDate(Nascimento, lDataNascimento) or (YearsBetween(lDataNascimento, Date) > 110) or
-    (lDataNascimento > Now) then
+  if not TryStrToDate(Nascimento, lDataNascimento) then
   begin
     FNascimento := EmptyStr;
     FIdade := 'anos; meses; semanas; dias;';
-    raise EDataIncorreta.Create('Data incoerente com os dias atuais');
+    raise EDataIncorreta.Create('A data inserida não está correta.');
+  end;
+
+  if (YearsBetween(lDataNascimento, Date) > 110) or (lDataNascimento >= Now) then
+  begin
+    FNascimento := EmptyStr;
+    FIdade := 'anos; meses; semanas; dias;';
+    raise EDataInvalida.Create('Data incoerente com os dias atuais.');
   end;
 
   CalcularIdade;

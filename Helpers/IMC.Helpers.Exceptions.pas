@@ -18,6 +18,7 @@ type
 
   ENascimentoNaoInformado = class(Exception);
   EDataIncorreta = class(Exception);
+  EDataInvalida = class(Exception);
 
 implementation
 

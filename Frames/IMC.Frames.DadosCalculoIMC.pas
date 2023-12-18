@@ -284,13 +284,14 @@ end;
 procedure TfrmDadosCalculoIMC.TratarExcessoes(pE: Exception);
 var
   lErroClasse: TClass;
-  lErroAltura, lErroPeso: Boolean;
+  lErroAltura, lErroPeso, lErroData: Boolean;
 begin
   Application.MessageBox(PChar(pE.Message), 'Atenção', MB_OK + MB_ICONINFORMATION);
 
   lErroClasse := pE.ClassType;
   lErroAltura := (lErroClasse = EAlturaNaoInformada) or (lErroClasse = EAlturaIncorreta) or (lErroClasse = EAlturaZerada);
   lErroPeso := (lErroClasse = EPesoNaoInformado) or (lErroClasse = EPesoIncorreto) or (lErroClasse = EPesoZerado);
+  lErroData := (lErroClasse = ENascimentoNaoInformado) or (lErroClasse = EDataIncorreta) or (lErroClasse = EDataInvalida);
 
   if lErroPeso then
   begin
@@ -300,7 +301,7 @@ begin
   begin
     THelpers.Focar(edtAltura);
   end else
-  if (lErroClasse = ENascimentoNaoInformado) or (lErroClasse = EDataIncorreta) then
+  if lErroData then
   begin
     THelpers.Focar(edtNascimento);
   end else
