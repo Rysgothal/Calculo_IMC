@@ -3,7 +3,7 @@ unit IMC.Interfaces.Observer;
 interface
 
 uses
-  IMC.Helpers.Enumerados;
+  IMC.Helpers.TiposAuxiliares;
 
 type
   IObserver = interface

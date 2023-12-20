@@ -3,7 +3,7 @@ unit IMC.Classes.Paciente;
 interface
 
 uses
-  IMC.Interfaces.StrategyIMC, IMC.Helpers.Enumerados, IMC.Classes.Pessoa,
+  IMC.Interfaces.StrategyIMC, IMC.Helpers.TiposAuxiliares, IMC.Classes.Pessoa,
   IMC.Classes.Historico, IMC.Classes.Restaurar,
   IMC.Interfaces.Subject, System.Generics.Collections, IMC.Interfaces.Observer;
 

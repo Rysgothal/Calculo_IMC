@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
-  IMC.Helpers.Enumerados, IMC.Interfaces.Observer,
+  IMC.Helpers.TiposAuxiliares, IMC.Interfaces.Observer,
   IMC.Interfaces.AbstractFactory, IMC.Interfaces.FabricaShapeCores;
 
 type
@@ -27,7 +27,7 @@ type
     procedure HabilitarShapes(pHabilitar: Boolean);
     procedure HabilitarComponentesResultado(pHabilitar: Boolean);
     procedure MoverSetas(pStatusIMC: TStatusIMC);
-    procedure ConfigurarPainelResultado(pConfigSeta: ISetaConfiguracao);
+    procedure ConfigurarPainelResultado(pConfigSeta: TConfig);
     { Private declarations }
   public
     procedure Atualizar(pStatusIMC: TStatusIMC);
@@ -45,21 +45,21 @@ uses
 { TfrmResultadoIMC }
 
 procedure TfrmResultadoIMC.Atualizar(pStatusIMC: TStatusIMC);
+var
+  lHabilitar: Boolean;
 begin
-  case pStatusIMC of
-    siNaoCalculado: HabilitarComponentesResultado(False);
-    else HabilitarComponentesResultado(True);
-  end;
+  lHabilitar := pStatusIMC <> siNaoCalculado;
 
+  HabilitarComponentesResultado(lHabilitar);
   MoverSetas(pStatusIMC);
 end;
 
-procedure TfrmResultadoIMC.ConfigurarPainelResultado(pConfigSeta: ISetaConfiguracao);
+procedure TfrmResultadoIMC.ConfigurarPainelResultado(pConfigSeta: TConfig);
 begin
   lblSetaBottom.Left := pConfigSeta.PosicaoSeta;
-  lblSetaBottom.Font.Color := pConfigSeta.CorSeta;
+  lblSetaBottom.Font.Color := pConfigSeta.CorShape;
   lblSetaTop.Left := pConfigSeta.PosicaoSeta;
-  lblSetaTop.Font.Color := pConfigSeta.CorSeta;
+  lblSetaTop.Font.Color := pConfigSeta.CorShape;
 end;
 
 procedure TfrmResultadoIMC.HabilitarComponentesResultado(pHabilitar: Boolean);
@@ -77,19 +77,19 @@ end;
 
 procedure TfrmResultadoIMC.HabilitarShapes(pHabilitar: Boolean);
 var
-  lFabricaCores: TFabricaShapeCor;
-  lCores: IShapeCor;
+  lFabricaCores: TFabricaConfiguracaoResultado;
+  lCores: IConfiguracaoResultado;
 begin
-  lFabricaCores := TFabricaShapeCor.Create;
+  lFabricaCores := TFabricaConfiguracaoResultado.Create;
 
   try
-    lCores := lFabricaCores.ConsultarCorShape(pHabilitar);
+    lCores := lFabricaCores.ConsultarConfiguracaoResultado(pHabilitar);
 
-    shpAbaixoPeso.Brush.Color := lCores.CorAbaixoPeso;
-    shpPesoIdeal.Brush.Color := lCores.CorPesoIdeal;
-    shpPoucoAcima.Brush.Color := lCores.CorPoucoAcimaPeso;
-    shpAcimaPeso.Brush.Color := lCores.CorAcimaPeso;
-    shpObesidade.Brush.Color := lCores.CorObeso;
+    shpAbaixoPeso.Brush.Color := lCores.ConfigAbaixoPeso.CorShape;
+    shpPesoIdeal.Brush.Color := lCores.ConfigPesoIdeal.CorShape;
+    shpPoucoAcima.Brush.Color := lCores.ConfigPoucoAcimaPeso.CorShape;
+    shpAcimaPeso.Brush.Color := lCores.ConfigAcimaPeso.CorShape;
+    shpObesidade.Brush.Color := lCores.ConfigObeso.CorShape;
   finally
     FreeAndNil(lFabricaCores);
   end;
@@ -97,18 +97,27 @@ end;
 
 procedure TfrmResultadoIMC.MoverSetas(pStatusIMC: TStatusIMC);
 var
-  lStatus: IFabricaStatusIMC;
+  lFabricaCores: TFabricaConfiguracaoResultado;
+  lCores: IConfiguracaoResultado;
+  lConfiguracao: TConfig;
 begin
-  case pStatusIMC of
-    siAbaixo: lStatus := TAbaixoPeso.Create;
-    siIdeal: lStatus := TPesoIdeal.Create;
-    siPoucoAcima: lStatus := TPoucoAcimaPeso.Create;
-    siAcima: lStatus := TAcimaPeso.Create;
-    siObeso: lStatus := TObeso.Create;
-    else lStatus := TNaoCalculado.Create;
-  end;
+  lFabricaCores := TFabricaConfiguracaoResultado.Create;
 
-  ConfigurarPainelResultado(lStatus.ConsultarConfSeta);
+  try
+    lCores := lFabricaCores.ConsultarConfiguracaoResultado(pStatusIMC <> siNaoCalculado);
+
+    case pStatusIMC of
+      siAbaixo: lConfiguracao := lCores.ConfigAbaixoPeso;
+      siIdeal: lConfiguracao := lCores.ConfigPesoIdeal;
+      siPoucoAcima: lConfiguracao := lCores.ConfigPoucoAcimaPeso;
+      siAcima: lConfiguracao := lCores.ConfigAcimaPeso;
+      siObeso: lConfiguracao := lCores.ConfigObeso;
+    end;
+
+    ConfigurarPainelResultado(lConfiguracao);
+  finally
+    FreeAndNil(lFabricaCores);
+  end;
 end;
 
 end.

@@ -7,9 +7,9 @@ uses
 
 type
   { Factory Method }
-  TFabricaShapeCor = class(TInterfacedObject, IFabricaShapeCores)
+  TFabricaConfiguracaoResultado = class(TInterfacedObject, IFabricaConfiguracaoResultado)
   public
-    function ConsultarCorShape(const pHabilitar: Boolean): IShapeCor;
+    function ConsultarConfiguracaoResultado(const pHabilitar: Boolean): IConfiguracaoResultado;
   end;
 
 implementation
@@ -19,7 +19,7 @@ uses
 
 { TFabricaShapeCor }
 
-function TFabricaShapeCor.ConsultarCorShape(const pHabilitar: Boolean): IShapeCor;
+function TFabricaConfiguracaoResultado.ConsultarConfiguracaoResultado(const pHabilitar: Boolean): IConfiguracaoResultado;
 begin
   case pHabilitar of
     True: Result := TShapeHabilitado.Create;

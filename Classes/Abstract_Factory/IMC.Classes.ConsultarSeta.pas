@@ -3,7 +3,7 @@ unit IMC.Classes.ConsultarSeta;
 interface
 
 uses
-  IMC.Interfaces.AbstractFactory, IMC.Helpers.Enumerados;
+  IMC.Interfaces.AbstractFactory, IMC.Helpers.TiposAuxiliares;
 
 type
   { Abstract Factory }

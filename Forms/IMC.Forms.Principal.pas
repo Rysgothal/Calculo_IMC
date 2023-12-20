@@ -5,8 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, System.ImageList, Vcl.ImgList, Vcl.StdCtrls, Vcl.Buttons,
-  Vcl.ComCtrls, System.DateUtils, IMC.Classes.Paciente, IMC.Helpers.Exceptions,
-  IMC.Helpers.Enumerados, IMC.Frames.ResultadoIMC, IMC.Frames.DadosCalculoIMC;
+  Vcl.ComCtrls, System.DateUtils, IMC.Classes.Paciente, IMC.Helpers.Exceptions, IMC.Frames.ResultadoIMC,
+  IMC.Frames.DadosCalculoIMC;
 
 type
   TfrmPrincipal = class(TForm)

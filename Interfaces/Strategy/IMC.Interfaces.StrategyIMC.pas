@@ -3,7 +3,7 @@ unit IMC.Interfaces.StrategyIMC;
 interface
 
 uses
-  IMC.Helpers.Enumerados;
+  IMC.Helpers.TiposAuxiliares;
 
 type
   { Strategy }

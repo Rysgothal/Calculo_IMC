@@ -3,7 +3,7 @@ program IMC;
 uses
   Vcl.Forms,
   IMC.Forms.Principal in 'Forms\IMC.Forms.Principal.pas' {frmPrincipal},
-  IMC.Helpers.Enumerados in 'Helpers\IMC.Helpers.Enumerados.pas',
+  IMC.Helpers.TiposAuxiliares in 'Helpers\IMC.Helpers.TiposAuxiliares.pas',
   IMC.Helpers.Exceptions in 'Helpers\IMC.Helpers.Exceptions.pas',
   IMC.Helpers.Funcoes in 'Helpers\IMC.Helpers.Funcoes.pas',
   IMC.Classes.Pessoa in 'Classes\IMC.Classes.Pessoa.pas',

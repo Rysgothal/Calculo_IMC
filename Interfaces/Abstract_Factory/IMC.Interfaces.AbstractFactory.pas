@@ -3,7 +3,7 @@ unit IMC.Interfaces.AbstractFactory;
 interface
 
 uses
-  IMC.Helpers.Enumerados, Vcl.Graphics;
+  IMC.Helpers.TiposAuxiliares, Vcl.Graphics;
 
 type
   { Abstract Factory }

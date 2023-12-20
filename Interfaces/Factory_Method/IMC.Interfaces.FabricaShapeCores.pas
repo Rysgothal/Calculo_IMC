@@ -7,8 +7,8 @@ uses
 
 type
   { Factory Method }
-  IFabricaShapeCores = interface
-    function ConsultarCorShape(const pFeitoCalculo: Boolean): IShapeCor;
+  IFabricaConfiguracaoResultado = interface
+    function ConsultarConfiguracaoResultado(const pFeitoCalculo: Boolean): IConfiguracaoResultado;
   end;
 
 implementation

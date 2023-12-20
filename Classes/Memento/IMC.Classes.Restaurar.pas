@@ -3,7 +3,7 @@ unit IMC.Classes.Restaurar;
 interface
 
 uses
-  IMC.Helpers.Enumerados;
+  IMC.Helpers.TiposAuxiliares;
 
 type
   { Memento }

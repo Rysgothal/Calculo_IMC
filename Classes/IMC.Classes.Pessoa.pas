@@ -3,7 +3,7 @@ unit IMC.Classes.Pessoa;
 interface
 
 uses
-  IMC.Helpers.Enumerados, IMC.Helpers.Exceptions;
+  IMC.Helpers.TiposAuxiliares, IMC.Helpers.Exceptions;
 
 type
   { Base }

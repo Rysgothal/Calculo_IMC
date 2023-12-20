@@ -3,83 +3,95 @@ unit IMC.Classes.ShapeCores;
 interface
 
 uses
-  IMC.Interfaces.CoresShape, System.UITypes;
+  IMC.Interfaces.CoresShape, System.UITypes, IMC.Helpers.TiposAuxiliares;
 
 type
   { Factory Method }
-  TShapeHabilitado = class(TInterfacedObject, IShapeCor)
+  TShapeHabilitado = class(TInterfacedObject, IConfiguracaoResultado)
   public
-    function CorAbaixoPeso: TColor;
-    function CorPesoIdeal: TColor;
-    function CorPoucoAcimaPeso: TColor;
-    function CorAcimaPeso: TColor;
-    function CorObeso: TColor;
+    function ConfigAbaixoPeso: TConfig;
+    function ConfigPesoIdeal: TConfig;
+    function ConfigPoucoAcimaPeso: TConfig;
+    function ConfigAcimaPeso: TConfig;
+    function ConfigObeso: TConfig;
   end;
 
   { Factory Method }
-  TShapeDesabilitado = class(TInterfacedObject, IShapeCor)
+  TShapeDesabilitado = class(TInterfacedObject, IConfiguracaoResultado)
   public
-    function CorAbaixoPeso: TColor;
-    function CorPesoIdeal: TColor;
-    function CorPoucoAcimaPeso: TColor;
-    function CorAcimaPeso: TColor;
-    function CorObeso: TColor;
+    function ConfigAbaixoPeso: TConfig;
+    function ConfigPesoIdeal: TConfig;
+    function ConfigPoucoAcimaPeso: TConfig;
+    function ConfigAcimaPeso: TConfig;
+    function ConfigObeso: TConfig;
+  const
+    POSICAO_SETA_DESABILITADA = 375;
   end;
 
 implementation
 
 { TShapeHabilitado }
 
-function TShapeHabilitado.CorAbaixoPeso: TColor;
+function TShapeHabilitado.ConfigAbaixoPeso: TConfig;
 begin
-  Result := $00D1B499
+  Result.CorShape := $00D1B499;
+  Result.PosicaoSeta := 80;
 end;
 
-function TShapeHabilitado.CorAcimaPeso: TColor;
+function TShapeHabilitado.ConfigAcimaPeso: TConfig;
 begin
-  Result := $008CC6FF
+  Result.CorShape := $008CC6FF;
+  Result.PosicaoSeta := 526;
 end;
 
-function TShapeHabilitado.CorObeso: TColor;
+function TShapeHabilitado.ConfigObeso: TConfig;
 begin
-  Result := $007D7DFF
+  Result.CorShape := $007D7DFF;
+  Result.PosicaoSeta := 673;
 end;
 
-function TShapeHabilitado.CorPesoIdeal: TColor;
+function TShapeHabilitado.ConfigPesoIdeal: TConfig;
 begin
-  Result := $00C0DCC0
+  Result.CorShape := $00C0DCC0;
+  Result.PosicaoSeta := 229;
 end;
 
-function TShapeHabilitado.CorPoucoAcimaPeso: TColor;
+function TShapeHabilitado.ConfigPoucoAcimaPeso: TConfig;
 begin
-  Result := $00BBFFFF
+  Result.CorShape := $00BBFFFF;
+  Result.PosicaoSeta := 375;
 end;
 
 { TShapeDesabilitado }
 
-function TShapeDesabilitado.CorAbaixoPeso: TColor;
+function TShapeDesabilitado.ConfigAbaixoPeso: TConfig;
 begin
-   Result := $00E6E6E6;
+  Result.CorShape := $00E6E6E6;
+  Result.PosicaoSeta := POSICAO_SETA_DESABILITADA;
 end;
 
-function TShapeDesabilitado.CorAcimaPeso: TColor;
+function TShapeDesabilitado.ConfigAcimaPeso: TConfig;
 begin
-  Result := $00BCBCBC
+  Result.CorShape := $00BCBCBC;
+  Result.PosicaoSeta := POSICAO_SETA_DESABILITADA;
 end;
 
-function TShapeDesabilitado.CorObeso: TColor;
+function TShapeDesabilitado.ConfigObeso: TConfig;
 begin
-  Result := $00A8A8A8
+  Result.CorShape := $00A8A8A8;
+  Result.PosicaoSeta := POSICAO_SETA_DESABILITADA;
 end;
 
-function TShapeDesabilitado.CorPesoIdeal: TColor;
+function TShapeDesabilitado.ConfigPesoIdeal: TConfig;
 begin
-  Result := $00D7D7D7;
+  Result.CorShape := $00D7D7D7;
+  Result.PosicaoSeta := POSICAO_SETA_DESABILITADA;
 end;
 
-function TShapeDesabilitado.CorPoucoAcimaPeso: TColor;
+function TShapeDesabilitado.ConfigPoucoAcimaPeso: TConfig;
 begin
-  Result := $00C9C9C9
+  Result.CorShape := $00C9C9C9;
+  Result.PosicaoSeta := POSICAO_SETA_DESABILITADA;
 end;
 
 end.

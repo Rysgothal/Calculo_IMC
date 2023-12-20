@@ -61,7 +61,7 @@ type
 implementation
 
 uses
-  IMC.Helpers.Funcoes, IMC.Helpers.Enumerados, IMC.Forms.Principal, IMC.Frames.ResultadoIMC;
+  IMC.Helpers.Funcoes, IMC.Helpers.TiposAuxiliares, IMC.Forms.Principal, IMC.Frames.ResultadoIMC;
 
 {$R *.dfm}
 

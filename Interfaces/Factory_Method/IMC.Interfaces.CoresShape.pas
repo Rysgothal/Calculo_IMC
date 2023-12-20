@@ -3,16 +3,16 @@ unit IMC.Interfaces.CoresShape;
 interface
 
 uses
-  System.UITypes;
+  System.UITypes, IMC.Helpers.TiposAuxiliares;
 
 type
   { Factory Method }
-  IShapeCor = interface
-    function CorAbaixoPeso: TColor;
-    function CorPesoIdeal: TColor;
-    function CorPoucoAcimaPeso: TColor;
-    function CorAcimaPeso: TColor;
-    function CorObeso: TColor;
+  IConfiguracaoResultado = interface
+    function ConfigAbaixoPeso: TConfig;
+    function ConfigPesoIdeal: TConfig;
+    function ConfigPoucoAcimaPeso: TConfig;
+    function ConfigAcimaPeso: TConfig;
+    function ConfigObeso: TConfig;
   end;
 
 implementation
