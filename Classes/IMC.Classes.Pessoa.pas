@@ -56,6 +56,13 @@ begin
 
   lAnos := CalcularAnos(lDataNascimento);
   lMeses := CalcularMeses(lDataNascimento, lAnos);
+
+  if lMeses = 12 then
+  begin
+    lMeses := 0;
+    Inc(lAnos);
+  end;
+
   lSemanas := CalcularSemanas(lDataNascimento, lAnos, lMeses);
   lDias := CalcularDias(lDataNascimento, lAnos, lMeses, lSemanas);
 
